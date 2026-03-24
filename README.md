@@ -1,90 +1,110 @@
 # ArkCloud - 方舟雲計算
 
-方舟雲計算科技有限公司官方網站
+> 台灣 AI GPU 雲端伺服器租賃平台
 
-## 🏢 關於公司
+## 功能特色
 
-- **公司名稱**：方舟雲計算科技有限公司
-- **統一編號**：60345307
-- **代表人**：週若傑
-- **登記地址**：桃園市中壢區龍平里龍東路 116號(1樓)
-- **核准設立日期**：2026-03-09
+- 🖥️ GPU 伺服器產品展示與部署
+- 💳 多種計費方式（月付/季付/年付）
+- 👤 會員中心（實例管理、帳單查詢）
+- 🔐 安全可靠的用戶認證系統
+- 📱 響應式設計
 
-## 🌟 服務項目
+## 技術棧
 
-AI 雲端運算 GPU 伺服器租賃服務
+- **前端**: Next.js 14, React, Tailwind CSS, TypeScript
+- **後端**: Express.js, Node.js
+- **數據庫**: PostgreSQL
+- **API**: RESTful API
 
-## 🚀 技術棧
+## 快速開始
 
-### 前端
-- Next.js 14
-- React 18
-- TypeScript
-- TailwindCSS
-- next-intl (i18n)
+### 1. 克隆項目
 
-### 後端
-- Next.js API Routes
-- Prisma ORM
-- NextAuth.js
+```bash
+git clone https://github.com/Minerlgx/arkcloud.git
+cd arkcloud
+```
 
-### 數據庫
-- PostgreSQL
+### 2. 配置環境
 
-### 部署
-- Ubuntu 22.04+
-- 1Panel
-- PM2
-- Nginx
+```bash
+# 複製環境變量示例
+cp backend/.env.example backend/.env
+cp frontend/.env.local.example frontend/.env.local
 
-## 📁 項目結構
+# 編輯配置文件
+vim backend/.env
+vim frontend/.env.local
+```
+
+### 3. 初始化數據庫
+
+```bash
+# 創建數據庫
+createdb arkcloud
+
+# 導入表結構
+psql -d postgresql://user:password@localhost:5432/arkcloud -f scripts/init-db.sql
+```
+
+### 4. 安裝依賴
+
+```bash
+bash scripts/install.sh
+```
+
+### 5. 啟動服務
+
+```bash
+# 終端1: 啟動後端
+bash scripts/start-backend.sh
+
+# 終端2: 啟動前端（開發模式）
+cd frontend && npm run dev
+
+# 或啟動前端（生產模式）
+bash scripts/start-frontend.sh
+```
+
+## 部署腳本
+
+| 腳本 | 說明 |
+|------|------|
+| `scripts/install.sh` | 安裝所有依賴 |
+| `scripts/deploy.sh` | 完整部署流程 |
+| `scripts/start-backend.sh` | 啟動後端服務 |
+| `scripts/start-frontend.sh` | 啟動前端服務 |
+
+## 項目結構
 
 ```
 arkcloud/
-├── frontend/          # 前端應用
+├── backend/          # 後端代碼
 │   ├── src/
-│   │   ├── app/      # Next.js App Router
-│   │   ├── components/  # React 組件
-│   │   ├── lib/      # 工具函數
-│   │   ├── messages/  # 國際化文案
-│   │   └── styles/   # 全局樣式
-│   └── ...
-├── backend/          # 後端應用
-│   ├── prisma/      # Prisma Schema
-│   └── ...
-└── DEPLOY.md        # 部署指南
+│   │   └── index.js  # API 入口
+│   └── package.json
+├── frontend/         # 前端代碼
+│   ├── src/
+│   │   ├── app/      # Next.js 頁面
+│   │   ├── components/
+│   │   └── lib/
+│   └── package.json
+├── scripts/         # 部署腳本
+│   ├── deploy.sh
+│   ├── install.sh
+│   ├── init-db.sql
+│   ├── start-backend.sh
+│   └── start-frontend.sh
+└── README.md
 ```
 
-## 🌐 國際化
+## 管理後台
 
-支持繁體中文 (zh-TW) 和英文 (en)
+訪問 `/admin` 進入管理後台
 
-## 📦 安裝
+默認管理員: `liurui@cloudta.com.cn`
 
-```bash
-# 克隆項目
-git clone https://github.com/Minerlgx/arkcloud.git
-cd arkcloud
+## License
 
-# 安裝前端依賴
-cd frontend && npm install
-
-# 安裝後端依賴
-cd ../backend && npm install
-```
-
-## 🔧 配置
-
-1. 複製環境變量配置
-2. 配置數據庫連接
-3. 設置支付接口
-
-詳見 [DEPLOY.md](DEPLOY.md)
-
-## 🚀 部署
-
-詳見 [DEPLOY.md](DEPLOY.md)
-
-## 📄 許可證
-
-Proprietary - All Rights Reserved
+MIT

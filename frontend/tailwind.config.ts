@@ -12,11 +12,16 @@ const config: Config = {
         primary: '#0066FF',
         secondary: '#00D4AA',
         accent: '#FF6B35',
-        dark: {
-          bg: '#0A0F1C',
-          card: '#111827',
-          border: '#1F2937',
+        light: {
+          bg: '#F8FAFC',
+          card: '#FFFFFF',
+          border: '#E2E8F0',
         },
+        dark: {
+          bg: '#0F172A',
+          card: '#1E293B',
+          border: '#334155',
+        }
       },
       fontFamily: {
         sans: ['Inter', 'Noto Sans TC', 'Noto Sans', 'sans-serif'],

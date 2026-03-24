@@ -15,7 +15,8 @@ model User {
   phone         String?
   company       String?
   taxId         String?
-  role          Role      @default(USER)
+  role          String    @default("USER")
+  status        String    @default("ACTIVE")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   orders        Order[]
@@ -28,13 +29,17 @@ model Product {
   slug          String    @unique
   category      String
   description   String
-  descriptionEn String?
-  specs         Json
-  pricing       Json
+  gpu           String
+  vram          String
+  cpu           String
+  ram           String
+  storage       String
+  network       String
+  datacenter    String
   priceHourly   Float
   priceMonthly  Float
   stock         Int       @default(0)
-  status        Status    @default(ACTIVE)
+  status        String    @default("ACTIVE")
   featured      Boolean   @default(false)
   images        String[]  @default([])
   createdAt     DateTime  @default(now())
@@ -45,10 +50,10 @@ model Product {
 model Order {
   id              String      @id @default(cuid())
   userId          String
-  user            User        @relation(fields: [userId], references: [id])
-  status          OrderStatus @default(PENDING)
+  user            User       @relation(fields: [userId], references: [id])
+  status          String      @default("PENDING")
+  billingCycle    String
   totalAmount     Float
-  billingCycle    BillingCycle
   stripePaymentId String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
@@ -67,25 +72,26 @@ model OrderItem {
 }
 
 model Instance {
-  id            String        @id @default(cuid())
+  id            String    @id @default(cuid())
   userId       String
-  user          User          @relation(fields: [userId], references: [id])
-  orderId       String?       @unique
-  order         Order?        @relation(fields: [orderId], references: [id])
-  productId     String
-  productName   String
-  status        InstanceStatus @default(PROVISIONING)
-  ipAddress     String?
-  port          Int?
-  password      String?
-  startedAt     DateTime?
-  expiresAt     DateTime?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  user          User      @relation(fields: [userId], references: [id])
+  orderId      String?   @unique
+  order        Order?    @relation(fields: [orderId], references: [id])
+  productId    String
+  productName  String
+  status       String    @default("PROVISIONING")
+  ipAddress   String?
+  port         Int?
+  password     String?
+  startedAt    DateTime?
+  expiresAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }
 
-enum Role { USER ADMIN }
-enum Status { ACTIVE INACTIVE }
-enum OrderStatus { PENDING PAID CANCELLED REFUNDED }
-enum InstanceStatus { PROVISIONING RUNNING STOPPED TERMINATED }
-enum BillingCycle { HOURLY MONTHLY }
+model SiteContent {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
