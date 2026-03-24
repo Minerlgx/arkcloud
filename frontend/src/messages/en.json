@@ -1,0 +1,52 @@
+{
+  "nav": {
+    "products": "Products",
+    "pricing": "Pricing",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register",
+    "dashboard": "Dashboard"
+  },
+  "hero": {
+    "title": "AI Cloud Computing",
+    "subtitle": "Unleash the Power of GPU Computing",
+    "description": "High-performance, stable, and cost-effective GPU cloud server rental services for AI developers, research institutions, and enterprises.",
+    "cta": "Get Started",
+    "learnMore": "Learn More"
+  },
+  "features": {
+    "title": "Why Choose ArkCloud",
+    "items": [
+      {
+        "title": "Ultimate Performance",
+        "description": "NVIDIA H100/H200 series GPUs for maximum compute power"
+      },
+      {
+        "title": "Ultra Low Latency",
+        "description": "Taiwan local datacenter with latency as low as 1ms"
+      },
+      {
+        "title": "Elastic Scaling",
+        "description": "On-demand selection, instant deployment, flexible scaling"
+      },
+      {
+        "title": "Professional Support",
+        "description": "7x24 technical support, professional team on standby"
+      }
+    ]
+  },
+  "products": {
+    "title": "GPU Server Plans",
+    "subtitle": "Full coverage from RTX 4090 to H200 series"
+  },
+  "datacenter": {
+    "title": "Data Centers",
+    "subtitle": "Strategic layout, covering all of Taiwan"
+  },
+  "footer": {
+    "company": "ArkCloud Computing Technology Co., Ltd.",
+    "address": "No. 116, Longdong Road, Longping Li, Zhongli District, Taoyuan City, Taiwan",
+    "copyright": "© 2026 ArkCloud Computing Technology Co., Ltd. All rights reserved."
+  }
+}

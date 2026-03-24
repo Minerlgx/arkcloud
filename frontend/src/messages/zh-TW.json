@@ -1,0 +1,52 @@
+{
+  "nav": {
+    "products": "產品列表",
+    "pricing": "價格方案",
+    "about": "關於我們",
+    "contact": "聯繫我們",
+    "login": "登錄",
+    "register": "註冊",
+    "dashboard": "會員中心"
+  },
+  "hero": {
+    "title": "AI 雲端運算",
+    "subtitle": "釋放 GPU 算力的無限可能",
+    "description": "為 AI 開發者、研究機構和企業提供高效、穩定、經濟的 GPU 雲端伺服器租賃服務。",
+    "cta": "立即開始",
+    "learnMore": "了解更多"
+  },
+  "features": {
+    "title": "為什麼選擇方舟",
+    "items": [
+      {
+        "title": "極致性能",
+        "description": "NVIDIA H100/H200 系列 GPU，釋放頂級算力"
+      },
+      {
+        "title": "極低延遲",
+        "description": "台灣本地數據中心，延遲低至 1ms"
+      },
+      {
+        "title": "彈性擴展",
+        "description": "按需選擇，即時部署，彈性擴展"
+      },
+      {
+        "title": "專業支援",
+        "description": "7x24 技術支援，專業團隊隨時待命"
+      }
+    ]
+  },
+  "products": {
+    "title": "GPU 伺服器方案",
+    "subtitle": "從 RTX 4090 到 H200 全系列覆蓋"
+  },
+  "datacenter": {
+    "title": "數據中心",
+    "subtitle": "戰略性佈局，覆蓋全台"
+  },
+  "footer": {
+    "company": "方舟雲計算科技有限公司",
+    "address": "桃園市中壢區龍平里龍東路 116號(1樓)",
+    "copyright": "© 2026 方舟雲計算科技有限公司. 版權所有."
+  }
+}

@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  name          String?
+  phone         String?
+  company       String?
+  taxId         String?
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  orders        Order[]
+  instances     Instance[]
+}
+
+model Product {
+  id            String    @id @default(cuid())
+  name          String
+  slug          String    @unique
+  category      String
+  description   String
+  descriptionEn String?
+  specs         Json
+  pricing       Json
+  priceHourly   Float
+  priceMonthly  Float
+  stock         Int       @default(0)
+  status        Status    @default(ACTIVE)
+  featured      Boolean   @default(false)
+  images        String[]  @default([])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  orderItems    OrderItem[]
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id])
+  status          OrderStatus @default(PENDING)
+  totalAmount     Float
+  billingCycle    BillingCycle
+  stripePaymentId String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  items           OrderItem[]
+  instance        Instance?
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  price     Float
+  quantity  Int     @default(1)
+}
+
+model Instance {
+  id            String        @id @default(cuid())
+  userId       String
+  user          User          @relation(fields: [userId], references: [id])
+  orderId       String?       @unique
+  order         Order?        @relation(fields: [orderId], references: [id])
+  productId     String
+  productName   String
+  status        InstanceStatus @default(PROVISIONING)
+  ipAddress     String?
+  port          Int?
+  password      String?
+  startedAt     DateTime?
+  expiresAt     DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+enum Role { USER ADMIN }
+enum Status { ACTIVE INACTIVE }
+enum OrderStatus { PENDING PAID CANCELLED REFUNDED }
+enum InstanceStatus { PROVISIONING RUNNING STOPPED TERMINATED }
+enum BillingCycle { HOURLY MONTHLY }
