@@ -6,11 +6,7 @@ echo "方舟雲計算 ArkCloud 部署腳本"
 echo "適用於 Ubuntu 22.04 LTS"
 echo "=========================================="
 
-# 變量設置
 PROJECT_DIR="/opt/arkcloud"
-DOMAIN="arkcloud.top"
-
-# 顏色輸出
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
@@ -18,26 +14,22 @@ NC='\033[0m'
 log() { echo -e "${GREEN}[INFO]${NC} $1"; }
 warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
 
-# 1. 安裝 Node.js 20.x
+# 1. Node.js 20
 log "安裝 Node.js 20..."
 curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 apt install -y nodejs
-node -v
-npm -v
-
-# 2. 安裝 PM2
-log "安裝 PM2..."
 npm install -g pm2
 
-# 3. 安裝 PostgreSQL
+# 2. PostgreSQL
 log "安裝 PostgreSQL..."
 apt install -y postgresql postgresql-contrib
 systemctl enable postgresql
 systemctl start postgresql
 
-# 創建數據庫
+# 3. 創建數據庫（如果已存在則刪除重建）
 log "創建數據庫..."
-su - postgres -c "psql -c \"CREATE DATABASE arkcloud;\""
+su - postgres -c "psql -c 'DROP DATABASE IF EXISTS arkcloud;'" 2>/dev/null || true
+su - postgres -c "psql -c 'CREATE DATABASE arkcloud;'"
 su - postgres -c "psql -c \"CREATE USER arkcloud WITH PASSWORD 'ArkCloud2024!';\""
 su - postgres -c "psql -c \"GRANT ALL PRIVILEGES ON DATABASE arkcloud TO arkcloud;\""
 su - postgres -c "psql -d arkcloud -c \"GRANT ALL ON SCHEMA public TO arkcloud;\""
@@ -46,8 +38,7 @@ su - postgres -c "psql -d arkcloud -c \"GRANT ALL ON SCHEMA public TO arkcloud;\
 log "克隆項目..."
 if [ -d "$PROJECT_DIR" ]; then
     warn "項目目錄已存在，正在更新..."
-    cd $PROJECT_DIR
-    git pull
+    cd $PROJECT_DIR && git pull
 else
     mkdir -p $PROJECT_DIR
     git clone https://github.com/Minerlgx/arkcloud.git $PROJECT_DIR
@@ -91,7 +82,6 @@ cat > /etc/nginx/sites-available/arkcloud << 'NGINXEOF'
 server {
     listen 80;
     server_name arkcloud.top www.arkcloud.top;
-
     client_max_body_size 100M;
 
     location / {
@@ -140,10 +130,3 @@ echo ""
 echo "=========================================="
 echo -e "${GREEN}部署完成！${NC}"
 echo "=========================================="
-echo ""
-echo "後端: http://127.0.0.1:3001"
-echo "前台: https://arkcloud.top"
-echo "管理: https://arkcloud.top/admin"
-echo ""
-echo "命令: pm2 status | pm2 logs | pm2 restart all"
-echo ""
