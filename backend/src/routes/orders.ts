@@ -25,20 +25,6 @@ router.post('/', async (req, res) => {
     
     const totalPrice = basePrice * quantity * discount
     
-    // 生成实例信息
-    const instances = []
-    for (let i = 0; i < quantity; i++) {
-      instances.push({
-        userId,
-        productId,
-        productName: product.name,
-        status: 'PENDING', // 支付后变成 RUNNING
-        ipAddress: `203.0.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`,
-        port: 22,
-        password: crypto.randomBytes(8).toString('hex'),
-      })
-    }
-    
     const order = await prisma.order.create({
       data: {
         userId,
@@ -48,14 +34,22 @@ router.post('/', async (req, res) => {
         items: {
           create: { productId, price: basePrice * discount, quantity }
         },
-        instances: {
-          create: instances
+        instance: {
+          create: {
+            userId,
+            productId,
+            productName: product.name,
+            status: 'PENDING',
+            ipAddress: `203.0.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`,
+            port: 22,
+            password: crypto.randomBytes(8).toString('hex'),
+          }
         }
       },
-      include: { instances: true, items: { include: { product: true } } }
+      include: { instance: true, items: { include: { product: true } } }
     })
     
-    res.json({ order, instance: order.instances[0] })
+    res.json({ order, instance: order.instance })
   } catch (error) {
     console.error(error)
     res.status(500).json({ error: 'Failed to create order' })
@@ -67,7 +61,7 @@ router.get('/user/:userId', async (req, res) => {
   try {
     const orders = await prisma.order.findMany({
       where: { userId: req.params.userId },
-      include: { items: { include: { product: true } }, instances: true },
+      include: { items: { include: { product: true } }, instance: true },
       orderBy: { createdAt: 'desc' }
     })
     res.json({ orders })
@@ -82,17 +76,19 @@ router.post('/:id/pay', async (req, res) => {
     const order = await prisma.order.update({
       where: { id: req.params.id },
       data: { status: 'PAID' },
-      include: { instances: true }
+      include: { instance: true }
     })
     
     // 激活实例
-    await prisma.instance.updateMany({
-      where: { orderId: req.params.id },
-      data: { 
-        status: 'RUNNING',
-        startedAt: new Date()
-      }
-    })
+    if (order.instance) {
+      await prisma.instance.update({
+        where: { id: order.instance.id },
+        data: { 
+          status: 'RUNNING',
+          startedAt: new Date()
+        }
+      })
+    }
     
     res.json({ success: true, order })
   } catch (error) {
