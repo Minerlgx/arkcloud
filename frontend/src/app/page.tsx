@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Zap, Server, Shield, Clock, CheckCircle } from 'lucide-react'
+import Navbar from '@/components/Navbar'
+import FeaturedProducts from '@/components/FeaturedProducts'
 
 const features = [
   { title: '極致性能', description: 'NVIDIA H100/H200 系列 GPU，釋放頂級算力', icon: Zap },
@@ -11,38 +13,40 @@ const features = [
 
 export default function HomePage() {
   return (
-    <div className="pt-16">
-      {/* Hero Section */}
+    <div className="pt-20">
+      <Navbar/>
+      
+      {/* Hero Section - 纯色背景 */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-blue-50 to-teal-50">
         <div className="max-w-7xl mx-auto px-6 py-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 rounded-full mb-6">
-                <Zap className="w-4 h-4 text-primary" />
-                <span className="text-sm text-primary font-medium">台灣在地 GPU 雲端服務</span>
+                <Zap className="w-4 h-4 text-blue-600" />
+                <span className="text-sm text-blue-600 font-medium">台灣在地 GPU 雲端服務</span>
               </div>
               
               <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900">
-                <span className="gradient-text">AI 雲端運算</span>
+                <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">AI 雲端運算</span>
                 <br />
                 <span>釋放 GPU 算力的無限可能</span>
               </h1>
               
               <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                為 AI 開發者、研究機構和企業提供高效、穩定、經濟的 GPU 雲端伺服器租賃服務。
+                為 AI 開發者，研究機構和企業提供高效、穩定、經濟的 GPU 雲端伺服器租賃服務。
               </p>
               
               <div className="flex flex-wrap gap-4">
                 <Link 
                   href="/products"
-                  className="group px-8 py-4 bg-primary hover:bg-primary/90 rounded-xl font-semibold transition-all flex items-center gap-2 text-white shadow-lg shadow-primary/30"
+                  className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl font-semibold transition-all flex items-center gap-2 text-white shadow-lg shadow-blue-500/25"
                 >
                   立即開始
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link 
                   href="/about"
-                  className="px-8 py-4 border-2 border-gray-300 hover:border-primary rounded-xl font-medium transition-colors text-gray-700 hover:text-primary"
+                  className="px-8 py-4 border-2 border-gray-300 hover:border-blue-600 hover:text-blue-600 rounded-xl font-medium transition-all text-gray-700"
                 >
                   了解更多
                 </Link>
@@ -67,7 +71,7 @@ export default function HomePage() {
             <div className="relative hidden lg:block">
               <div className="relative w-full aspect-square">
                 <Image 
-                  src="https://images.unsplash.com/photo-1640955014216-75201056c829?w=800&q=80"
+                  src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=800&q=80"
                   alt="GPU Server"
                   fill
                   className="object-cover rounded-3xl shadow-2xl"
@@ -89,7 +93,7 @@ export default function HomePage() {
               <div className="absolute -right-4 bottom-1/4 bg-white p-4 rounded-xl shadow-lg">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <Server className="w-5 h-5 text-primary" />
+                    <Server className="w-5 h-5 text-blue-600" />
                   </div>
                   <div>
                     <div className="text-gray-900 font-medium">512 核心</div>
@@ -114,9 +118,9 @@ export default function HomePage() {
             {features.map((feature, index) => (
               <div 
                 key={index}
-                className="group p-8 bg-gray-50 rounded-2xl border border-gray-100 hover:border-primary/30 transition-all hover:-translate-y-1"
+                className="group p-8 bg-gray-50 rounded-2xl border border-gray-100 hover:border-blue-200 transition-all hover:-translate-y-1"
               >
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <feature.icon className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 text-gray-900">{feature.title}</h3>
@@ -131,105 +135,42 @@ export default function HomePage() {
       <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-2 text-gray-900">GPU 伺服器方案</h2>
-            <p className="text-gray-600 text-lg">從 RTX 4090 到 H200 全系列覆蓋</p>
+            <h2 className="text-4xl font-bold mb-2 text-gray-900">熱門方案</h2>
+            <p className="text-gray-600 text-lg">精選熱門 GPU 伺服器，立即部署</p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all">
-              <div className="relative h-48">
-                <Image 
-                  src="https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80"
-                  alt="H100 Server"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1 bg-primary rounded-full text-sm font-medium text-white">AI訓練</span>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-gray-900">H100 80GB SXM</h3>
-                <p className="text-gray-500 text-sm mb-4">NVIDIA H100 GPU，80GB HBM3 記憶體</p>
-                <div className="flex items-end justify-between">
-                  <div>
-                    <span className="text-2xl font-bold text-primary">NT$2.50</span>
-                    <span className="text-gray-400">/小時</span>
-                  </div>
-                  <Link href="/products" className="px-4 py-2 bg-primary/10 hover:bg-primary/20 rounded-lg text-primary text-sm font-medium transition-colors">
-                    詳情
-                  </Link>
-                </div>
-              </div>
-            </div>
-            
-            <div className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all">
-              <div className="relative h-48">
-                <Image 
-                  src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80"
-                  alt="RTX 4090"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1 bg-secondary rounded-full text-sm font-medium text-white">推理</span>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-gray-900">RTX 4090 x8</h3>
-                <p className="text-gray-500 text-sm mb-4">8x NVIDIA RTX 4090，192GB VRAM</p>
-                <div className="flex items-end justify-between">
-                  <div>
-                    <span className="text-2xl font-bold text-primary">NT$5.00</span>
-                    <span className="text-gray-400">/小時</span>
-                  </div>
-                  <Link href="/products" className="px-4 py-2 bg-primary/10 hover:bg-primary/20 rounded-lg text-primary text-sm font-medium transition-colors">
-                    詳情
-                  </Link>
-                </div>
-              </div>
-            </div>
-            
-            <div className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all">
-              <div className="relative h-48">
-                <Image 
-                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"
-                  alt="H200 Server"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1 bg-accent rounded-full text-sm font-medium text-white">旗艦</span>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-gray-900">H200 141GB</h3>
-                <p className="text-gray-500 text-sm mb-4">最新 H200 GPU，141GB HBM3e 記憶體</p>
-                <div className="flex items-end justify-between">
-                  <div>
-                    <span className="text-2xl font-bold text-primary">NT$3.50</span>
-                    <span className="text-gray-400">/小時</span>
-                  </div>
-                  <Link href="/products" className="px-4 py-2 bg-primary/10 hover:bg-primary/20 rounded-lg text-primary text-sm font-medium transition-colors">
-                    詳情
-                  </Link>
-                </div>
-              </div>
-            </div>
+          <FeaturedProducts />
+          
+          <div className="text-center mt-12">
+            <Link 
+              href="/products"
+              className="inline-flex items-center gap-2 px-8 py-4 border-2 border-blue-600 hover:bg-blue-600 hover:text-white rounded-xl font-medium transition-all text-blue-600"
+            >
+              查看全部方案
+              <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-blue-600 to-teal-500">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=80" 
+            alt="Server"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/95 to-indigo-600/95"></div>
+        </div>
+        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <h2 className="text-4xl font-bold mb-4 text-white">準備好釋放 AI 的力量了嗎？</h2>
           <p className="text-white/80 text-lg mb-8">
             立即開始使用方舟雲計算，享受頂級 GPU 算力帶來的無限可能
           </p>
           <Link 
             href="/register"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary hover:bg-gray-100 rounded-xl font-semibold transition-all"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-600 hover:bg-gray-100 rounded-xl font-semibold transition-all shadow-xl"
           >
             立即註冊
             <ArrowRight className="w-5 h-5" />

@@ -1,22 +1,33 @@
 import { Building2, Users, Award, MapPin, Server as ServerIcon } from 'lucide-react'
 import { getSiteContent } from '@/lib/content'
+import Navbar from '@/components/Navbar'
 
 export default async function AboutPage() {
   const content = await getSiteContent()
   
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="pt-20">
+      <Navbar/>
+      
       {/* Hero */}
-      <div className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <h1 className="text-4xl font-bold mb-4">{content.about_title || '方舟雲計算科技有限公司'}</h1>
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80" 
+            alt="Technology"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/95 to-indigo-900/90"></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <h1 className="text-5xl font-bold text-white mb-4">{content.about_title || '方舟雲計算科技有限公司'}</h1>
           <p className="text-xl text-white/80">{content.about_subtitle || '專業 AI 雲端運算服務提供商'}</p>
         </div>
-      </div>
+      </section>
 
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid lg:grid-cols-2 gap-12 mb-16">
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+          <div className="bg-white rounded-2xl p-8 shadow-lg border">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-2 text-gray-900">
               <Building2 className="w-6 h-6 text-blue-600" /> 公司介紹
             </h2>
@@ -28,7 +39,7 @@ export default async function AboutPage() {
             </p>
           </div>
           
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+          <div className="bg-white rounded-2xl p-8 shadow-lg border">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-2 text-gray-900">
               <MapPin className="w-6 h-6 text-blue-600" /> 公司資訊
             </h2>
@@ -44,18 +55,24 @@ export default async function AboutPage() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-white rounded-2xl p-8 text-center shadow-sm border border-gray-100">
-            <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4"><ServerIcon className="w-8 h-8 text-blue-600" /></div>
+          <div className="bg-white rounded-2xl p-8 text-center shadow-lg border">
+            <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <ServerIcon className="w-8 h-8 text-blue-600" />
+            </div>
             <h3 className="text-xl font-bold mb-2 text-gray-900">頂級硬體</h3>
             <p className="text-gray-600">NVIDIA H100/H200 系列</p>
           </div>
-          <div className="bg-white rounded-2xl p-8 text-center shadow-sm border border-gray-100">
-            <div className="w-16 h-16 bg-teal-100 rounded-2xl flex items-center justify-center mx-auto mb-4"><Users className="w-8 h-8 text-teal-600" /></div>
+          <div className="bg-white rounded-2xl p-8 text-center shadow-lg border">
+            <div className="w-16 h-16 bg-teal-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <Users className="w-8 h-8 text-teal-600" />
+            </div>
             <h3 className="text-xl font-bold mb-2 text-gray-900">專業團隊</h3>
             <p className="text-gray-600">7x24 技術支援</p>
           </div>
-          <div className="bg-white rounded-2xl p-8 text-center shadow-sm border border-gray-100">
-            <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto mb-4"><Award className="w-8 h-8 text-orange-600" /></div>
+          <div className="bg-white rounded-2xl p-8 text-center shadow-lg border">
+            <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <Award className="w-8 h-8 text-orange-600" />
+            </div>
             <h3 className="text-xl font-bold mb-2 text-gray-900">品質保證</h3>
             <p className="text-gray-600">99.9% 服務可用性</p>
           </div>

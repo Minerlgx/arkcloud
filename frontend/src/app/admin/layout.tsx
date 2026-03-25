@@ -15,8 +15,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname()
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     const admin = sessionStorage.getItem('admin')
     if (!admin && pathname !== '/admin') {
       router.push('/admin')
@@ -28,9 +30,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     router.push('/admin')
   }
 
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+        <div className="text-white">載入中...</div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-slate-900">
-      {/* Mobile Menu Button - 始终显示在移动端 */}
       <button 
         className="md:hidden fixed top-4 left-4 z-[60] p-3 bg-blue-600 hover:bg-blue-700 rounded-xl text-white shadow-lg transition-colors"
         onClick={() => setIsOpen(!isOpen)}
@@ -38,7 +47,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </button>
 
-      {/* Sidebar */}
       <aside className={`fixed left-0 top-0 bottom-0 w-64 bg-slate-800 border-r border-slate-700 z-50 transition-transform duration-300 ${
         isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
       }`}>
@@ -73,7 +81,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
-      {/* Mobile Overlay */}
       {isOpen && (
         <div 
           className="md:hidden fixed inset-0 bg-black/60 z-40"
@@ -81,7 +88,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         />
       )}
 
-      {/* Main Content */}
       <main className="md:ml-64 p-6 md:p-8 pt-20 md:pt-8">
         {children}
       </main>
