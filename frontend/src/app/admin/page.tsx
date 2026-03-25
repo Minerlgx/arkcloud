@@ -9,21 +9,19 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  const ADMIN_EMAIL = 'liurui@cloudta.com.cn'
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     setLoading(true)
 
-    try {
-      // 只允许指定邮箱
-      if (email !== ADMIN_EMAIL) {
-        setError('您沒有管理員權限')
-        setLoading(false)
-        return
-      }
+    // 管理员邮箱验证（不显示）
+    if (email !== 'liurui@cloudta.com.cn') {
+      setError('您沒有管理員權限')
+      setLoading(false)
+      return
+    }
 
+    try {
       const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'
       const res = await fetch(`${API_URL}/users/login`, {
         method: 'POST',
@@ -71,7 +69,7 @@ export default function AdminLogin() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="liurui@cloudta.com.cn"
+              placeholder="admin@example.com"
               required
               className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
