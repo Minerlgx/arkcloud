@@ -115,7 +115,7 @@ export default function ProductsPage() {
       
       // Upload image if set
       if (form.image && productId) {
-        await fetch('http://localhost:3001/api/upload', {
+        await api.post('/upload', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ image: form.image, productId })

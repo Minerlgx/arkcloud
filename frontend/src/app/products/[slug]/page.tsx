@@ -49,7 +49,7 @@ export default function ProductDetailPage() {
     setLoading(true)
     try {
       // 获取所有产品然后匹配 slug
-      const res = await fetch('http://localhost:3001/api/products')
+      const res = await api.get('/products')
       const data = await res.json()
       
       const found = data.products?.find((p: any) => p.slug === params.slug)
@@ -103,7 +103,7 @@ export default function ProductDetailPage() {
     setDeploying(true)
     try {
       const userData = JSON.parse(user)
-      const res = await fetch('http://localhost:3001/api/orders', {
+      const res = await api.post('/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

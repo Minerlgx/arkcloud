@@ -41,7 +41,7 @@ export default function FeaturedProducts() {
 
   const fetchFeaturedProducts = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/products')
+      const res = await api.get('/products')
       const data = await res.json()
       
       // 获取 featured 产品
