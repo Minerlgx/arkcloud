@@ -24,7 +24,8 @@ export default function AdminLogin() {
         return
       }
 
-      const res = await fetch('http://localhost:3001/api/users/login', {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'
+      const res = await fetch(`${API_URL}/users/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
