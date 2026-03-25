@@ -8,85 +8,95 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  password      String
-  name          String?
-  phone         String?
-  company       String?
-  taxId         String?
-  role          String    @default("USER")
-  status        String    @default("ACTIVE")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  orders        Order[]
-  instances     Instance[]
+  id        String     @id @default(cuid())
+  email     String     @unique
+  password  String
+  name      String?
+  phone     String?
+  company   String?
+  taxId     String?
+  role      String     @default("USER")
+  status    String     @default("ACTIVE")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  instances Instance[]
+  orders    Order[]
+
+  @@map("User")
 }
 
 model Product {
-  id            String    @id @default(cuid())
-  name          String
-  slug          String    @unique
-  category      String
-  description   String
-  gpu           String
-  vram          String
-  cpu           String
-  ram           String
-  storage       String
-  network       String
-  datacenter    String
-  priceHourly   Float
-  priceMonthly  Float
-  stock         Int       @default(0)
-  status        String    @default("ACTIVE")
-  featured      Boolean   @default(false)
-  images        String[]  @default([])
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  orderItems    OrderItem[]
+  id           String      @id @default(cuid())
+  name         String
+  slug         String      @unique
+  category     String
+  description  String
+  gpu          String
+  vram         String
+  cpu          String
+  ram          String
+  storage      String
+  network      String
+  datacenter   String
+  priceHourly  Float
+  priceMonthly Float
+  stock        Int         @default(0)
+  status       String      @default("ACTIVE")
+  featured     Boolean     @default(false)
+  images       String[]    @default([])
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  orderItems   OrderItem[]
+
+  @@map("Product")
 }
 
 model Order {
   id              String      @id @default(cuid())
   userId          String
-  user            User       @relation(fields: [userId], references: [id])
   status          String      @default("PENDING")
   billingCycle    String
   totalAmount     Float
   stripePaymentId String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
-  items           OrderItem[]
   instance        Instance?
+  user            User        @relation(fields: [userId], references: [id])
+  items           OrderItem[]
+
+  @@map("Order")
 }
 
 model OrderItem {
   id        String  @id @default(cuid())
   orderId   String
-  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId String
-  product   Product @relation(fields: [productId], references: [id])
   price     Float
   quantity  Int     @default(1)
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@map("OrderItem")
 }
 
 model Instance {
-  id            String    @id @default(cuid())
-  userId       String
-  user          User      @relation(fields: [userId], references: [id])
-  orderId      String?   @unique
-  order        Order?    @relation(fields: [orderId], references: [id])
-  productId    String
-  productName  String
-  status       String    @default("PROVISIONING")
+  id          String    @id @default(cuid())
+  userId      String
+  orderId     String?   @unique
+  productId   String
+  productName String
+  status      String    @default("PROVISIONING")
   ipAddress   String?
-  port         Int?
-  password     String?
-  startedAt    DateTime?
-  expiresAt    DateTime?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  port        Int?
+  password    String?
+  startedAt   DateTime?
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  order       Order?    @relation(fields: [orderId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+
+  @@map("Instance")
 }
 
 model SiteContent {
@@ -94,4 +104,6 @@ model SiteContent {
   key       String   @unique
   value     String
   updatedAt DateTime @updatedAt
+
+  @@map("SiteContent")
 }
