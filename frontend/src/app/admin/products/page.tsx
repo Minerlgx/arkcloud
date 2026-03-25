@@ -113,13 +113,9 @@ export default function ProductsPage() {
         productId = result.product?.id
       }
       
-      // Upload image if set
-      if (form.image && productId) {
-        await api.post('/upload', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: form.image, productId })
-        })
+      // Upload image if set (only for new base64 images)
+      if (form.image && productId && form.image.startsWith('data:')) {
+        await api.post('/products/upload', { image: form.image, productId })
       }
       
       fetchProducts()

@@ -11,6 +11,11 @@ const PORT = process.env.PORT || 3001
 app.use(cors())
 app.use(express.json())
 
+// Debug route
+app.post('/api/test', (req, res) => {
+  res.json({ test: 'ok' })
+})
+
 // Routes
 app.use('/api/products', productsRouter)
 app.use('/api/users', usersRouter)
