@@ -85,4 +85,23 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
+// 上传图片（返回图片URL）
+router.post('/upload', async (req, res) => {
+  try {
+    const { image, productId } = req.body
+    
+    // 如果有 productId，更新产品图片
+    if (productId && image) {
+      await prisma.product.update({
+        where: { id: productId },
+        data: { images: [image] }
+      })
+    }
+    
+    res.json({ success: true, image })
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to upload image' })
+  }
+})
+
 export default router
