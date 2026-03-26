@@ -9,7 +9,9 @@ const app = express()
 const PORT = process.env.PORT || 3001
 
 app.use(cors())
-app.use(express.json())
+// 由于后台上传使用 base64 图片写入 JSON，可能较大，需要放宽限制
+app.use(express.json({ limit: '20mb' }))
+app.use(express.urlencoded({ extended: true, limit: '20mb' }))
 
 // Debug route
 app.post('/api/test', (req, res) => {

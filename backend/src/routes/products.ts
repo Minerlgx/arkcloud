@@ -17,7 +17,8 @@ router.post('/upload', async (req, res) => {
     
     res.json({ success: true, image })
   } catch (error) {
-    res.status(500).json({ error: 'Failed to upload image' })
+    const message = error instanceof Error ? error.message : 'Failed to upload image'
+    res.status(500).json({ error: message })
   }
 })
 

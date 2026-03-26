@@ -14,13 +14,6 @@ export default function AdminLogin() {
     setError('')
     setLoading(true)
 
-    // 管理员邮箱验证（不显示）
-    if (email !== 'liurui@cloudta.com.cn') {
-      setError('您沒有管理員權限')
-      setLoading(false)
-      return
-    }
-
     try {
       const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'
       const res = await fetch(`${API_URL}/users/login`, {
@@ -33,6 +26,13 @@ export default function AdminLogin() {
       
       if (!res.ok) {
         setError(data.error || '登錄失敗')
+        setLoading(false)
+        return
+      }
+
+      // 只允许 ADMIN 角色进入后端管理
+      if (data.user?.role !== 'ADMIN') {
+        setError('您沒有管理員權限')
         setLoading(false)
         return
       }

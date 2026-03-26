@@ -54,6 +54,7 @@ export default function ProductsPage() {
   const [deploying, setDeploying] = useState(false)
   const [orderCreated, setOrderCreated] = useState<any>(null)
   const [mounted, setMounted] = useState(false)
+  const [fetchError, setFetchError] = useState<string | null>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -62,6 +63,7 @@ export default function ProductsPage() {
 
   const fetchProducts = async () => {
     setLoading(true)
+    setFetchError(null)
     try {
       const params = new URLSearchParams()
       if (category !== '全部') {
@@ -77,6 +79,9 @@ export default function ProductsPage() {
       setProducts(prods)
     } catch (err) {
       console.error('Fetch error:', err)
+      const msg = err instanceof Error ? err.message : '加载产品失败'
+      setFetchError(msg)
+      setProducts([])
     } finally {
       setLoading(false)
     }
@@ -155,6 +160,19 @@ export default function ProductsPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 -mt-8 relative z-20">
+        {fetchError && (
+          <div className="mb-8 rounded-2xl border border-red-200 bg-red-50 px-6 py-4 text-red-800">
+            <p className="font-semibold mb-2">无法加载产品数据</p>
+            <p className="text-sm mb-4 whitespace-pre-wrap">{fetchError}</p>
+            <button
+              type="button"
+              onClick={() => fetchProducts()}
+              className="rounded-xl bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
+            >
+              重试
+            </button>
+          </div>
+        )}
         {/* Category Filter */}
         <div className="flex flex-wrap gap-3 mb-10">
           {categories.map((cat, idx) => (

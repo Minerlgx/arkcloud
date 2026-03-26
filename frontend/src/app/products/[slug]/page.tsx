@@ -4,6 +4,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowLeft, Cpu, HardDrive, Server, Network, Loader2, Minus, Plus, CreditCard, ShoppingCart, Zap, Check } from 'lucide-react'
+import api from '@/lib/api'
 
 interface Product {
   id: string
@@ -49,8 +50,7 @@ export default function ProductDetailPage() {
     setLoading(true)
     try {
       // 获取所有产品然后匹配 slug
-      const res = await api.get('/products')
-      const data = await res.json()
+      const data = await api.get('/products')
       
       const found = data.products?.find((p: any) => p.slug === params.slug)
       
@@ -103,24 +103,15 @@ export default function ProductDetailPage() {
     setDeploying(true)
     try {
       const userData = JSON.parse(user)
-      const res = await api.post('/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId: userData.id,
-          productId: product.id,
-          quantity,
-          billingCycle
-        })
+      await api.post('/orders', {
+        userId: userData.id,
+        productId: product.id,
+        quantity,
+        billingCycle
       })
-      
-      if (res.ok) {
-        alert('訂單已創建！請前往支付。')
-        router.push('/dashboard')
-      } else {
-        const data = await res.json()
-        alert(data.error || '部署失敗')
-      }
+
+      alert('訂單已創建！請前往支付。')
+      router.push('/dashboard')
     } catch (err) {
       alert('部署失敗')
     } finally {

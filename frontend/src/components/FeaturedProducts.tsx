@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Loader2 } from 'lucide-react'
+import api from '@/lib/api'
 
 interface Product {
   id: string
@@ -41,9 +42,9 @@ export default function FeaturedProducts() {
 
   const fetchFeaturedProducts = async () => {
     try {
-      const res = await api.get('/products')
-      const data = await res.json()
-      
+      // api.get 已经在 lib/api.ts 里做了 JSON 解析
+      const data = await api.get('/products')
+
       // 获取 featured 产品
       const featured = (data.products || [])
         .filter((p: any) => p.featured)

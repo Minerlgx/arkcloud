@@ -26,6 +26,7 @@ interface Product {
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const [fetchError, setFetchError] = useState<string | null>(null)
   const [search, setSearch] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
@@ -36,43 +37,108 @@ export default function ProductsPage() {
   const [form, setForm] = useState({
     name: '', slug: '', category: 'Inference', description: '', gpu: '', vram: '', 
     cpu: '', ram: '', storage: '', network: '', datacenter: 'Taiwan (Taoyuan)',
-    priceHourly: '', priceMonthly: '', stock: '', featured: false, image: ''
+    priceHourly: '', priceMonthly: '', stock: '', featured: false,
+    image: '',
+    imageChanged: false
   })
 
   useEffect(() => { fetchProducts() }, [])
 
   const fetchProducts = async () => {
     setLoading(true)
+    setFetchError(null)
     try {
       const data = await api.get('/products')
       setProducts(data.products || [])
     } catch (err) {
       console.error('Failed to fetch products:', err)
-      alert('載入產品失敗')
+      const msg = err instanceof Error ? err.message : '載入產品失敗'
+      setFetchError(msg)
+      setProducts([])
     } finally {
       setLoading(false)
+    }
+  }
+
+  const compressImageToDataUrl = async (file: File): Promise<string> => {
+    // 后端当前可能仍有限制 JSON 请求体大小；这里把图片压到尽量小，避免 PayloadTooLargeError
+    // 后台表格缩略图显示很小（~48px），没必要传大图；给足安全余量
+    const targetMaxBytes = 25000 // 经验值：尽量压到 < 25KB（更稳）
+    const maxDim = 320
+
+    const loadImage = (src: string) =>
+      new Promise<HTMLImageElement>((resolve, reject) => {
+        const img = new Image()
+        img.onload = () => resolve(img)
+        img.onerror = () => reject(new Error('图片加载失败'))
+        img.src = src
+      })
+
+    const bytesFromDataUrl = (dataUrl: string) => {
+      // data:[mime];base64,<payload>
+      const base64 = dataUrl.split(',')[1] || ''
+      // base64 字符数约等于 bytes * 4/3
+      return Math.ceil((base64.length * 3) / 4)
+    }
+
+    const objectUrl = URL.createObjectURL(file)
+    try {
+      const img = await loadImage(objectUrl)
+
+      let { width, height } = img
+      if (width > maxDim || height > maxDim) {
+        const scale = Math.min(maxDim / width, maxDim / height)
+        width = Math.max(1, Math.round(width * scale))
+        height = Math.max(1, Math.round(height * scale))
+      }
+
+      const canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      const ctx = canvas.getContext('2d')
+      if (!ctx) throw new Error('Canvas 初始化失败')
+
+      ctx.drawImage(img, 0, 0, width, height)
+
+      // 从较高质量开始，超出目标就逐步降质量
+      let quality = 0.8
+      let dataUrl = canvas.toDataURL('image/jpeg', quality)
+      let approxBytes = bytesFromDataUrl(dataUrl)
+
+      for (let i = 0; i < 7 && approxBytes > targetMaxBytes && quality > 0.18; i++) {
+        quality = Math.max(0.18, quality - 0.1)
+        dataUrl = canvas.toDataURL('image/jpeg', quality)
+        approxBytes = bytesFromDataUrl(dataUrl)
+      }
+
+      if (approxBytes > targetMaxBytes) {
+        throw new Error('圖片壓縮後仍過大，請換更小的圖片')
+      }
+
+      return dataUrl
+    } finally {
+      URL.revokeObjectURL(objectUrl)
     }
   }
 
   const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
+
+    const maxSizeBytes = 5 * 1024 * 1024 // 5MB
+    if (file.size > maxSizeBytes) {
+      alert('圖片大小超過 5MB，請換一張更小的圖')
+      return
+    }
     
     setUploading(true)
     try {
-      const reader = new FileReader()
-      reader.onload = (ev) => {
-        const base64 = ev.target?.result as string
-        setForm({...form, image: base64})
-        setUploading(false)
-      }
-      reader.onerror = () => {
-        alert('圖片讀取失敗')
-        setUploading(false)
-      }
-      reader.readAsDataURL(file)
+      const compressed = await compressImageToDataUrl(file)
+      setForm({ ...form, image: compressed, imageChanged: true })
     } catch (err) {
-      alert('上傳失敗')
+      const msg = err instanceof Error ? err.message : '上傳失敗'
+      alert(msg.includes('PayloadTooLarge') ? '图片太大，后台无法接收（请换更小的图）' : msg)
+    } finally {
       setUploading(false)
     }
   }
@@ -114,11 +180,11 @@ export default function ProductsPage() {
       }
       
       // Upload image if set (only for new base64 images)
-      if (form.image && productId && form.image.startsWith('data:')) {
+      if (form.imageChanged && form.image && productId && form.image.startsWith('data:')) {
         await api.post('/products/upload', { image: form.image, productId })
       }
       
-      fetchProducts()
+      await fetchProducts()
       closeModal()
       alert(editingProduct ? '產品已更新' : '產品已新增')
     } catch (err: any) {
@@ -147,7 +213,8 @@ export default function ProductsPage() {
       priceMonthly: String(product.priceMonthly || 0),
       stock: String(product.stock || 10),
       featured: Boolean(product.featured),
-      image: Array.isArray(product.images) ? product.images[0] || '' : ''
+      image: Array.isArray(product.images) ? product.images[0] || '' : '',
+      imageChanged: false
     })
     setShowModal(true)
   }
@@ -163,7 +230,7 @@ export default function ProductsPage() {
   const closeModal = () => {
     setShowModal(false)
     setEditingProduct(null)
-    setForm({ name: '', slug: '', category: 'Inference', description: '', gpu: '', vram: '', cpu: '', ram: '', storage: '', network: '', datacenter: 'Taiwan (Taoyuan)', priceHourly: '', priceMonthly: '', stock: '', featured: false, image: '' })
+    setForm({ name: '', slug: '', category: 'Inference', description: '', gpu: '', vram: '', cpu: '', ram: '', storage: '', network: '', datacenter: 'Taiwan (Taoyuan)', priceHourly: '', priceMonthly: '', stock: '', featured: false, image: '', imageChanged: false })
   }
 
   const filteredProducts = products.filter(p => 
@@ -182,6 +249,20 @@ export default function ProductsPage() {
           <Plus className="w-5 h-5" /> 新增產品
         </button>
       </div>
+
+      {fetchError && (
+        <div className="mb-6 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-red-200">
+          <p className="font-semibold text-white mb-1">無法載入產品列表</p>
+          <p className="text-sm mb-3 whitespace-pre-wrap opacity-90">{fetchError}</p>
+          <button
+            type="button"
+            onClick={() => fetchProducts()}
+            className="rounded-lg bg-red-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-700"
+          >
+            重試
+          </button>
+        </div>
+      )}
 
       <div className="mb-6">
         <div className="relative">
