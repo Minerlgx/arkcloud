@@ -41,6 +41,31 @@ router.post('/login', async (req, res) => {
   }
 })
 
+// 修改密码
+router.put('/password', async (req, res) => {
+  try {
+    const { id, oldPassword, newPassword } = req.body
+    
+    const user = await prisma.user.findUnique({ where: { id } })
+    if (!user) return res.status(404).json({ error: 'User not found' })
+    
+    const oldHash = crypto.createHash('sha256').update(oldPassword).digest('hex')
+    if (user.password !== oldHash) {
+      return res.status(401).json({ error: '原密码错误' })
+    }
+    
+    const newHash = crypto.createHash('sha256').update(newPassword).digest('hex')
+    await prisma.user.update({
+      where: { id },
+      data: { password: newHash }
+    })
+    
+    res.json({ success: true })
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update password' })
+  }
+})
+
 // 获取所有用户 (管理员)
 router.get('/', async (req, res) => {
   try {

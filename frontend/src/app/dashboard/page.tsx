@@ -73,6 +73,16 @@ export default function DashboardPage() {
     }
     setSaving(true)
     try {
+      const res = await fetch(`${API_URL}/users/password`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: user?.id, oldPassword: password.current, newPassword: password.newPwd })
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        alert(data.error || '修改失敗')
+        return
+      }
       alert('密碼修改成功')
       setPassword({ current: '', newPwd: '', confirm: '' })
     } catch (err) {
