@@ -207,13 +207,50 @@ export default function DashboardPage() {
                     <div key={order.id} className="p-6">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="font-semibold text-gray-900">{order.items[0]?.product?.name || 'GPU 實例'}</h3>
-                          <p className="text-gray-500 text-sm">訂單 {order.id.slice(0, 8)}...</p>
+                          <h3 className="font-semibold text-gray-900">{order.items[0]?.name || order.items[0]?.product?.name || 'GPU 實例'}</h3>
+                          <p className="text-gray-500 text-sm">訂單 {order.id}</p>
                         </div>
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${order.status === 'PAID' ? 'bg-green-100 text-green-700' : order.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>
-                          {order.status === 'PAID' ? '運行中' : order.status === 'PENDING' ? '待支付' : '已取消'}
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                          order.status === 'active' || order.status === 'PAID' ? 'bg-green-100 text-green-700' : 
+                          order.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
+                        }`}>
+                          {order.status === 'active' || order.status === 'PAID' ? '運行中' : 
+                           order.status === 'PENDING' ? '待支付' : '已取消'}
                         </span>
                       </div>
+                      
+                      {order.instances && order.instances.length > 0 && order.instances.map((instance: any) => (
+                        <div key={instance.id} className="bg-gray-50 rounded-xl p-4">
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                            <div>
+                              <p className="text-xs text-gray-500 mb-1">IP 地址</p>
+                              <p className="font-mono text-sm">{instance.ip}</p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-gray-500 mb-1">連接端口</p>
+                              <p className="font-mono text-sm">{instance.port}</p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-gray-500 mb-1">到期時間</p>
+                              <p className="text-sm">{new Date(instance.expiresAt).toLocaleString('zh-TW')}</p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-gray-500 mb-1">狀態</p>
+                              <p className={`text-sm font-medium ${instance.status === 'running' ? 'text-green-600' : 'text-gray-600'}`}>
+                                {instance.status === 'running' ? '● 運行中' : instance.status}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex gap-3">
+                            <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors">
+                              管理實例
+                            </button>
+                            <button className="px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-lg transition-colors">
+                              查看監控
+                            </button>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   ))}
                 </div>
