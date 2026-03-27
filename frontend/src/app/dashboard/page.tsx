@@ -188,39 +188,40 @@ export default function DashboardPage() {
         <main className="flex-1 p-6 md:p-8">
           {tab === 'instances' && (
             <div className="bg-white rounded-2xl border border-gray-200">
-              <div className="p-6 border-b border-gray-100">
+              <div className="p-6 border-b border-gray-100 flex items-center justify-between">
                 <h2 className="text-xl font-bold text-gray-900">我的實例</h2>
+                <span className="text-sm text-gray-500">共 {orders.reduce((sum, o) => sum + (o.instances?.length || 0), 0)} 個實例</span>
               </div>
               {loading ? (
                 <div className="p-12 flex items-center justify-center">
                   <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
                 </div>
-              ) : orders.length === 0 ? (
+              ) : orders.reduce((sum, o) => sum + (o.instances?.length || 0), 0) === 0 ? (
                 <div className="p-12 text-center">
                   <Server className="w-12 h-12 text-gray-300 mx-auto mb-4" />
                   <p className="text-gray-500 mb-4">您還沒有部署任何實例</p>
-                  <Link href="/products" className="text-blue-600 hover:underline">前往產品頁面 →</Link>
+                  <Link href="/markets" className="text-blue-600 hover:underline">前往產品頁面 →</Link>
                 </div>
               ) : (
                 <div className="divide-y divide-gray-100">
                   {orders.map((order) => (
-                    <div key={order.id} className="p-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="font-semibold text-gray-900">{order.items[0]?.name || order.items[0]?.product?.name || 'GPU 實例'}</h3>
-                          <p className="text-gray-500 text-sm">訂單 {order.id}</p>
+                    order.instances && order.instances.map((instance: any) => (
+                      <div key={instance.id} className="p-6">
+                        <div className="flex items-center justify-between mb-4">
+                          <div>
+                            <h3 className="font-semibold text-gray-900">{instance.name || order.items[0]?.name || order.items[0]?.product?.name || 'GPU 實例'}</h3>
+                            <p className="text-gray-500 text-sm">訂單 {order.id} • 實例 {instance.id}</p>
+                          </div>
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            instance.status === 'running' ? 'bg-green-100 text-green-700' : 
+                            instance.status === 'stopped' ? 'bg-gray-100 text-gray-700' : 'bg-yellow-100 text-yellow-700'
+                          }`}>
+                            {instance.status === 'running' ? '● 運行中' : 
+                             instance.status === 'stopped' ? '■ 已停止' : '⏳ 啟動中'}
+                          </span>
                         </div>
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          order.status === 'active' || order.status === 'PAID' ? 'bg-green-100 text-green-700' : 
-                          order.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
-                        }`}>
-                          {order.status === 'active' || order.status === 'PAID' ? '運行中' : 
-                           order.status === 'PENDING' ? '待支付' : '已取消'}
-                        </span>
-                      </div>
-                      
-                      {order.instances && order.instances.length > 0 && order.instances.map((instance: any) => (
-                        <div key={instance.id} className="bg-gray-50 rounded-xl p-4">
+                        
+                        <div className="bg-gray-50 rounded-xl p-4">
                           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                             <div>
                               <p className="text-xs text-gray-500 mb-1">IP 地址</p>
@@ -235,10 +236,8 @@ export default function DashboardPage() {
                               <p className="text-sm">{new Date(instance.expiresAt).toLocaleString('zh-TW')}</p>
                             </div>
                             <div>
-                              <p className="text-xs text-gray-500 mb-1">狀態</p>
-                              <p className={`text-sm font-medium ${instance.status === 'running' ? 'text-green-600' : 'text-gray-600'}`}>
-                                {instance.status === 'running' ? '● 運行中' : instance.status}
-                              </p>
+                              <p className="text-xs text-gray-500 mb-1">計費方式</p>
+                              <p className="text-sm">{order.billingCycle === 'hourly' ? '按時計費' : '月付'}</p>
                             </div>
                           </div>
                           <div className="flex gap-3">
@@ -256,8 +255,8 @@ export default function DashboardPage() {
                             </Link>
                           </div>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))
                   ))}
                 </div>
               )}
