@@ -264,6 +264,59 @@ model = nn.Sequential(
       </div>
     )
   },
+  // 其他文档
+  migration: {
+    title: '數據遷移',
+    category: '開發者指南',
+    content: (
+      <div className="space-y-6">
+        <p>將您的數據遷移到方舟算力平台。</p>
+        <h3 className="text-lg font-bold text-gray-900">遷移方式</h3>
+        <ul className="list-disc pl-6 space-y-2">
+          <li><strong>SCP 上傳：</strong><code>scp -r /local/path user@instance:/remote/path</code></li>
+          <li><strong>rsync 同步：</strong>適合大文件斷點續傳</li>
+          <li><strong>對象存儲：</strong>通過 S3 兼容接口上傳</li>
+          <li><strong>FTP/SFTP：</strong>使用 FTP 客戶端上傳</li>
+        </ul>
+        <h3 className="text-lg font-bold text-gray-900">注意事項</h3>
+        <ul className="list-disc pl-6 space-y-2">
+          <li>確保網絡連接穩定</li>
+          <li>大文件建議使用壓縮</li>
+          <li>遷移後驗證文件完整性</li>
+        </ul>
+      </div>
+    )
+  },
+  'best-practices': {
+    title: '最佳實踐',
+    category: '開發者指南',
+    content: (
+      <div className="space-y-6">
+        <p>使用方舟算力的最佳實踐建議。</p>
+        <h3 className="text-lg font-bold text-gray-900">性能優化</h3>
+        <ul className="list-disc pl-6 space-y-2">
+          <li>使用混合精度訓練（AMP）可提升 2-3 倍速度</li>
+          <li>數據加載使用多進程（num_workers &gt; 0）</li>
+          <li>GPU 顯存不足時使用梯度累積</li>
+          <li>定期保存檢查點避免進度丟失</li>
+        </ul>
+        <h3 className="text-lg font-bold text-gray-900">成本優化</h3>
+        <ul className="list-disc pl-6 space-y-2">
+          <li>開發測試使用容器實例（按時計費）</li>
+          <li>長期訓練使用裸金屬服務器（月付優惠）</li>
+          <li>閒置時及時停止實例避免浪費</li>
+          <li>使用搶占式實例可節省 50% 成本</li>
+        </ul>
+        <h3 className="text-lg font-bold text-gray-900">安全建議</h3>
+        <ul className="list-disc pl-6 space-y-2">
+          <li>定期備份重要數據</li>
+          <li>不要將 API Key 寫入代碼</li>
+          <li>使用 SSH 密鑰認證</li>
+          <li>開啟雙重認證（2FA）</li>
+        </ul>
+      </div>
+    )
+  },
 }
 
 export default function DocPage() {
