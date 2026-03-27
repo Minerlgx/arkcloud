@@ -242,12 +242,18 @@ export default function DashboardPage() {
                             </div>
                           </div>
                           <div className="flex gap-3">
-                            <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors">
+                            <Link 
+                              href={`/dashboard/instances/${instance.id}`}
+                              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
+                            >
                               管理實例
-                            </button>
-                            <button className="px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-lg transition-colors">
+                            </Link>
+                            <Link 
+                              href={`/dashboard/instances/${instance.id}?tab=monitor`}
+                              className="px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-lg transition-colors"
+                            >
                               查看監控
-                            </button>
+                            </Link>
                           </div>
                         </div>
                       ))}
