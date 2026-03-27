@@ -157,7 +157,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 pt-16">
       <div className="md:flex">
         <aside className="hidden md:block w-64 bg-white border-r border-gray-200 md:min-h-screen md:sticky md:top-0">
           <div className="p-6 overflow-y-auto md:h-screen">
@@ -185,7 +185,7 @@ export default function DashboardPage() {
           </div>
         </aside>
 
-        <main className="flex-1 p-6 md:p-8 pt-20">
+        <main className="flex-1 p-6 md:p-8">
           {tab === 'instances' && (
             <div className="bg-white rounded-2xl border border-gray-200">
               <div className="p-6 border-b border-gray-100 flex items-center justify-between">
