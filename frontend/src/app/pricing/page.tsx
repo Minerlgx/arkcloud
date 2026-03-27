@@ -7,7 +7,7 @@ const plans = [
   {
     name: '按時計費',
     icon: Clock,
-    description: '彈�使用，適合臨時需求',
+    description: '彈性使用，適合臨時需求',
     discount: '無折扣',
     features: ['按小時計費，靈活方便', '隨時啟動/停止', '無最低消費', '適合測試開發'],
     color: 'gray',
@@ -16,7 +16,7 @@ const plans = [
     name: '月付方案',
     icon: Calendar,
     description: '一個月為單位，適合長期穩定使用',
-    discount: '86折',
+    discount: '86 折',
     features: ['月付享 86 折優惠', '每月自動續費', '可隨時取消', '適合長期項目'],
     color: 'blue',
     popular: true,
@@ -25,7 +25,7 @@ const plans = [
     name: '季付方案',
     icon: Calendar,
     description: '三個月為單位，中期項目首選',
-    discount: '8折',
+    discount: '8 折',
     features: ['季付享 8 折優惠', '相當於月付 9.6 折', '節省更多成本', '適合季度項目'],
     color: 'indigo',
   },
@@ -33,7 +33,7 @@ const plans = [
     name: '年付方案',
     icon: CreditCard,
     description: '一年為單位，最大優惠力度',
-    discount: '75折',
+    discount: '75 折',
     features: ['年付享 75 折優惠', '相當於月付 9 折', '最大優惠力度', '適合長期部署'],
     color: 'violet',
   },
@@ -169,7 +169,7 @@ export default function PricingPage() {
       {/* CTA */}
       <section className="py-16 bg-gradient-to-r from-blue-600 to-indigo-600">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">準備好开始了嗎？</h2>
+          <h2 className="text-3xl font-bold text-white mb-4">準備好開始了嗎？</h2>
           <p className="text-white/80 text-lg mb-8">立即註冊，享受專業 GPU 雲端服務</p>
           <Link 
             href="/register"
