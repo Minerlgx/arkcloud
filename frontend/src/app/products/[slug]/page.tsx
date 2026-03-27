@@ -176,11 +176,11 @@ export default function ProductDetailPage() {
                 onClick={() => {
                   const stored = sessionStorage.getItem('user')
                   if (stored) {
-                    // 已登录，跳转到租用流程或会员中心
-                    router.push('/dashboard')
+                    // 已登录，跳转到结算页面
+                    router.push(`/checkout?product=${product.slug}`)
                   } else {
-                    // 未登录，跳转到登录
-                    router.push('/login')
+                    // 未登录，跳转到登录，登录后返回结算页面
+                    router.push(`/login?redirect=/checkout?product=${product.slug}`)
                   }
                 }}
                 className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-xl transition-all shadow-lg"
