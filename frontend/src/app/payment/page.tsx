@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Check, CreditCard, Clock, ArrowLeft, Loader2, AlertCircle } from 'lucide-react'
+import { Check, CreditCard, Clock, ArrowLeft, Loader2, AlertCircle, Wallet, Plus } from 'lucide-react'
 
 interface OrderData {
   product: {
@@ -20,26 +20,57 @@ interface OrderData {
   createdAt: string
 }
 
+interface UserBalance {
+  balance: number
+  frozen: number
+  available: number
+}
+
 export default function PaymentPage() {
   const router = useRouter()
   const [order, setOrder] = useState<OrderData | null>(null)
+  const [user, setUser] = useState<any>(null)
+  const [balance, setBalance] = useState<UserBalance>({ balance: 0, frozen: 0, available: 0 })
   const [loading, setLoading] = useState(true)
   const [processing, setProcessing] = useState(false)
-  const [selectedMethod, setSelectedMethod] = useState('card')
+  const [selectedMethod, setSelectedMethod] = useState('balance') // 默认余额支付
+  const [showTopUp, setShowTopUp] = useState(false)
+  const [topUpAmount, setTopUpAmount] = useState('')
 
   useEffect(() => {
     // 从 sessionStorage 获取订单信息
     const orderData = sessionStorage.getItem('pendingOrder')
+    const userData = sessionStorage.getItem('user')
+    
     if (!orderData) {
       router.push('/markets')
       return
     }
+    
     setOrder(JSON.parse(orderData))
+    
+    if (userData) {
+      const user = JSON.parse(userData)
+      setUser(user)
+      // 模拟用户余额（演示用）
+      setBalance({
+        balance: 5000, // 账户余额 NT$5000
+        frozen: 0,
+        available: 5000
+      })
+    }
+    
     setLoading(false)
   }, [])
 
   const handlePayment = async () => {
     if (!order) return
+    
+    // 检查余额是否足够
+    if (selectedMethod === 'balance' && balance.available < order.totalPrice) {
+      setShowTopUp(true)
+      return
+    }
     
     setProcessing(true)
     try {
@@ -57,6 +88,22 @@ export default function PaymentPage() {
       alert('支付失敗，請稍後重試')
     } finally {
       setProcessing(false)
+    }
+  }
+
+  const handleTopUp = () => {
+    const amount = parseInt(topUpAmount)
+    if (amount > 0) {
+      // 模拟充值
+      const newBalance = balance.balance + amount
+      setBalance({
+        balance: newBalance,
+        frozen: 0,
+        available: newBalance
+      })
+      setShowTopUp(false)
+      setTopUpAmount('')
+      alert(`充值成功！已充值 NT$${amount}`)
     }
   }
 
@@ -84,9 +131,76 @@ export default function PaymentPage() {
 
   const price = order.billingCycle === 'hourly' ? order.product.priceHourly : order.product.priceMonthly
   const priceLabel = order.billingCycle === 'hourly' ? '/小時' : '/月'
+  const balanceInsufficient = selectedMethod === 'balance' && balance.available < order.totalPrice
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Top Up Modal */}
+      {showTopUp && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-md">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">餘額不足</h3>
+            <p className="text-gray-600 mb-4">
+              您的可用餘額為 <span className="font-bold text-blue-600">NT${balance.available}</span>，
+              訂單金額為 <span className="font-bold">NT${order.totalPrice}</span>，
+              還差 <span className="font-bold text-red-600">NT${order.totalPrice - balance.available}</span>。
+            </p>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">選擇充值金額</label>
+              <div className="grid grid-cols-4 gap-2 mb-3">
+                {[100, 500, 1000, 2000].map(amount => (
+                  <button
+                    key={amount}
+                    onClick={() => setTopUpAmount(amount.toString())}
+                    className={`py-2 rounded-lg border-2 font-medium transition-colors ${
+                      topUpAmount === amount.toString()
+                        ? 'border-blue-500 bg-blue-50 text-blue-600'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    NT${amount}
+                  </button>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="number"
+                  value={topUpAmount}
+                  onChange={(e) => setTopUpAmount(e.target.value)}
+                  placeholder="自定義金額"
+                  className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  min="1"
+                />
+                <button
+                  onClick={handleTopUp}
+                  disabled={!topUpAmount || parseInt(topUpAmount) <= 0}
+                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl disabled:opacity-50"
+                >
+                  充值
+                </button>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowTopUp(false)}
+                className="flex-1 py-3 border border-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-50"
+              >
+                取消
+              </button>
+              <button
+                onClick={() => {
+                  setShowTopUp(false)
+                  setSelectedMethod('card')
+                }}
+                className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl"
+              >
+                使用其他支付
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <section className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-6 py-8">
@@ -127,15 +241,37 @@ export default function PaymentPage() {
                 </div>
               </div>
 
+              {/* Balance Display */}
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center">
+                      <Wallet className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-sm text-blue-600 font-medium">我的餘額</div>
+                      <div className="text-2xl font-bold text-gray-900">NT${balance.available}</div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setShowTopUp(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                  >
+                    <Plus className="w-4 h-4" />
+                    充值
+                  </button>
+                </div>
+              </div>
+
               {/* Payment Method Selection */}
               <div className="bg-white rounded-2xl p-6 shadow-sm">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">選擇支付方式</h2>
                 <div className="space-y-3">
                   {[
+                    { id: 'balance', name: '餘額支付', icon: '💰', desc: '使用帳戶餘額支付' },
                     { id: 'card', name: '信用卡/借記卡', icon: '💳', desc: 'Visa, Mastercard, JCB' },
                     { id: 'transfer', name: '銀行轉帳', icon: '🏦', desc: '支援台灣各大銀行' },
                     { id: 'alipay', name: '支付寶', icon: '📱', desc: '中國大陸常用支付' },
-                    { id: 'wechat', name: '微信支付', icon: '💬', desc: '中國大陸常用支付' },
                   ].map((method) => (
                     <label 
                       key={method.id} 
@@ -164,6 +300,20 @@ export default function PaymentPage() {
                     </label>
                   ))}
                 </div>
+
+                {/* Balance Warning */}
+                {balanceInsufficient && (
+                  <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
+                    <AlertCircle className="w-5 h-5 text-red-600 mt-0.5" />
+                    <div>
+                      <div className="font-medium text-red-600">餘額不足</div>
+                      <div className="text-sm text-red-600">
+                        您的可用餘額為 NT${balance.available}，還差 NT${order.totalPrice - balance.available}。
+                        請先充值或選擇其他支付方式。
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Card Details (if card selected) */}
                 {selectedMethod === 'card' && (
@@ -219,11 +369,19 @@ export default function PaymentPage() {
                   <div className="flex justify-between text-gray-600">
                     <span>支付方式</span>
                     <span className="font-medium">
-                      {selectedMethod === 'card' ? '信用卡' : 
-                       selectedMethod === 'transfer' ? '銀行轉帳' :
-                       selectedMethod === 'alipay' ? '支付寶' : '微信支付'}
+                      {selectedMethod === 'balance' ? '餘額支付' : 
+                       selectedMethod === 'card' ? '信用卡' :
+                       selectedMethod === 'transfer' ? '銀行轉帳' : '支付寶'}
                     </span>
                   </div>
+                  {selectedMethod === 'balance' && (
+                    <div className="flex justify-between text-gray-600">
+                      <span>餘額</span>
+                      <span className={`font-medium ${balanceInsufficient ? 'text-red-600' : 'text-green-600'}`}>
+                        NT${balance.available}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="border-t border-gray-200 pt-4 mb-6">
@@ -236,13 +394,18 @@ export default function PaymentPage() {
 
                 <button
                   onClick={handlePayment}
-                  disabled={processing}
+                  disabled={processing || balanceInsufficient}
                   className="w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold text-lg rounded-xl transition-all shadow-lg flex items-center justify-center gap-2"
                 >
                   {processing ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
                       處理中...
+                    </>
+                  ) : balanceInsufficient ? (
+                    <>
+                      <Plus className="w-5 h-5" />
+                      餘額不足，請充值
                     </>
                   ) : (
                     <>
