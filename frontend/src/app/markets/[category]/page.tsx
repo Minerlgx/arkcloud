@@ -109,6 +109,42 @@ export default function CategoryPage() {
         </div>
       </section>
 
+      {/* Category Tabs */}
+      <section className="py-8 bg-white border-b">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex gap-4">
+            <Link
+              href="/markets"
+              className="px-6 py-3 rounded-xl font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all"
+            >
+              全部产品
+            </Link>
+            <Link
+              href="/markets/container"
+              className={`px-6 py-3 rounded-xl font-medium transition-all ${
+                category === 'container'
+                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              <Box className="w-5 h-5 inline mr-2" />
+              GPU 容器实例
+            </Link>
+            <Link
+              href="/markets/bms"
+              className={`px-6 py-3 rounded-xl font-medium transition-all ${
+                category === 'bms'
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/30'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              <Server className="w-5 h-5 inline mr-2" />
+              GPU 裸金属服务器
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Products */}
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-6">
