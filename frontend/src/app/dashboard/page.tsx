@@ -41,8 +41,40 @@ export default function DashboardPage() {
 
   const fetchOrders = async (userId: string) => {
     try {
+      // 从 API 获取订单
       const data = await api.get(`/orders/user/${userId}`)
-      setOrders(data.orders || [])
+      const apiOrders = data.orders || []
+      
+      // 从 sessionStorage 获取最新支付成功的订单
+      const successOrder = sessionStorage.getItem('orderSuccess')
+      if (successOrder) {
+        const orderData = JSON.parse(successOrder)
+        // 创建新的订单记录
+        const newOrder: Order = {
+          id: 'ORD-' + Date.now(),
+          status: 'active',
+          totalAmount: orderData.totalPrice,
+          billingCycle: orderData.billingCycle,
+          createdAt: orderData.paidAt,
+          items: [orderData.product],
+          instances: [{
+            id: 'INS-' + Date.now(),
+            name: orderData.product.name,
+            status: 'running',
+            ip: '待分配',
+            port: 22,
+            expiresAt: orderData.billingCycle === 'hourly' 
+              ? new Date(Date.now() + 3600000).toISOString()
+              : new Date(Date.now() + 30 * 24 * 3600000).toISOString(),
+          }]
+        }
+        // 添加到订单列表前面
+        apiOrders.unshift(newOrder)
+        // 清除 sessionStorage 中的成功订单
+        sessionStorage.removeItem('orderSuccess')
+      }
+      
+      setOrders(apiOrders)
     } catch (err) {
       console.error(err)
     } finally {
