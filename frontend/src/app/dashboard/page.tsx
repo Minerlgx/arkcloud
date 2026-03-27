@@ -185,7 +185,7 @@ export default function DashboardPage() {
           </div>
         </aside>
 
-        <main className="flex-1 p-6 md:p-8">
+        <main className="flex-1 p-6 md:p-8 pt-20">
           {tab === 'instances' && (
             <div className="bg-white rounded-2xl border border-gray-200">
               <div className="p-6 border-b border-gray-100 flex items-center justify-between">
