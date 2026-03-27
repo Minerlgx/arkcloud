@@ -205,6 +205,202 @@ const articles: Record<string, {
       </div>
     )
   },
+  '5': {
+    title: '算力租賃 vs 自建機房：財務總監不知道的 5 個成本陷阱',
+    excerpt: '很多企業選擇自建機房，但隱藏成本往往被忽視。這篇文章幫你算清真實成本。',
+    category: '價格攻略',
+    date: '2026-03-08',
+    views: 945,
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80',
+    content: (
+      <div className="space-y-6">
+        <p>企業需要 GPU 算力時，第一個想法往往是「買設備自建」。但作為財務總監，你真的算過總成本嗎？</p>
+
+        <h3 className="text-xl font-bold text-gray-900">陷阱一：設備折舊</h3>
+        <p>GPU 設備折舊快，3 年後殘值可能只剩 20%。H100 服務器 NT$300 萬，3 年後只值 NT$60 萬。</p>
+
+        <h3 className="text-xl font-bold text-gray-900">陷阱二：電力成本</h3>
+        <p>8 卡 H100 滿載功耗 10kW，24 小時運行：</p>
+        <ul className="list-disc pl-6 space-y-2">
+          <li>日耗電：240 度</li>
+          <li>月耗電：7,200 度</li>
+          <li>月電費：NT$28,800（NT$4/度）</li>
+          <li>年電費：NT$345,600</li>
+        </ul>
+
+        <h3 className="text-xl font-bold text-gray-900">陷阱三：冷卻系統</h3>
+        <p>精密空調、冷卻塔、備用電源，初期投入 NT$50-100 萬，每年維護費 NT$10 萬+。</p>
+
+        <h3 className="text-xl font-bold text-gray-900">陷阱四：人力成本</h3>
+        <p>需要專職運維人員，年薪 NT$60-100 萬。</p>
+
+        <h3 className="text-xl font-bold text-gray-900">陷阱五：閒置浪費</h3>
+        <p>項目結束或業務波動時，設備閒置就是純虧損。租賃可以隨時退訂。</p>
+
+        <h3 className="text-xl font-bold text-gray-900">成本對比（3 年）</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border p-3 text-left">項目</th>
+                <th className="border p-3 text-right">自建</th>
+                <th className="border p-3 text-right">租賃</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border p-3">設備採購</td>
+                <td className="border p-3 text-right">NT$300 萬</td>
+                <td className="border p-3 text-right">NT$0</td>
+              </tr>
+              <tr>
+                <td className="border p-3">電力（3 年）</td>
+                <td className="border p-3 text-right">NT$104 萬</td>
+                <td className="border p-3 text-right">包含在租金</td>
+              </tr>
+              <tr>
+                <td className="border p-3">冷卻系統</td>
+                <td className="border p-3 text-right">NT$80 萬</td>
+                <td className="border p-3 text-right">NT$0</td>
+              </tr>
+              <tr>
+                <td className="border p-3">人力（3 年）</td>
+                <td className="border p-3 text-right">NT$240 萬</td>
+                <td className="border p-3 text-right">NT$0</td>
+              </tr>
+              <tr className="bg-blue-50">
+                <td className="border p-3 font-bold">總計</td>
+                <td className="border p-3 text-right font-bold">NT$724 萬</td>
+                <td className="border p-3 text-right font-bold">NT$300-400 萬</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p className="mt-6 font-bold text-blue-600">結論：租賃可節省 40-50% 成本！</p>
+      </div>
+    )
+  },
+  '6': {
+    title: '2025GPU 服務器配置和報價全解析',
+    excerpt: '從入門到旗艦，所有主流 GPU 服務器配置和價格一目了然。',
+    category: '價格攻略',
+    date: '2026-03-05',
+    views: 1567,
+    image: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=800&q=80',
+    content: (
+      <div className="space-y-6">
+        <p>2025 年 GPU 服務器市場百花齊放，從入門級 RTX 4090 到旗艦 H200，該如何選擇？這份指南幫你快速定位。</p>
+
+        <h3 className="text-xl font-bold text-gray-900">入門級（NT$500-1000/月）</h3>
+        <ul className="list-disc pl-6 space-y-2">
+          <li><strong>RTX 4090 24GB：</strong>性價比之王，適合推理和中小型模型訓練</li>
+          <li><strong>RTX 4090 48GB：</strong>大顯存版本，可運行更大模型</li>
+          <li><strong>適用場景：</strong>學習、開發、推理服務、小型微調</li>
+        </ul>
+
+        <h3 className="text-xl font-bold text-gray-900">中端級（NT$1500-3000/月）</h3>
+        <ul className="list-disc pl-6 space-y-2">
+          <li><strong>A100 40GB：</strong>經典訓練卡，生態完善</li>
+          <li><strong>A100 80GB：</strong>大顯存，適合大模型</li>
+          <li><strong>適用場景：</strong>模型訓練、微調、中等規模推理</li>
+        </ul>
+
+        <h3 className="text-xl font-bold text-gray-900">高端級（NT$5000-10000/月）</h3>
+        <ul className="list-disc pl-6 space-y-2">
+          <li><strong>H100 80GB：</strong>當前主流旗艦，性能強勁</li>
+          <li><strong>H200 141GB：</strong>2025 新旗艦，顯存更大</li>
+          <li><strong>適用場景：</strong>大模型訓練、高性能計算、大規模推理</li>
+        </ul>
+
+        <h3 className="text-xl font-bold text-gray-900">多卡配置</h3>
+        <p>8 卡服務器適合大規模訓練：</p>
+        <ul className="list-disc pl-6 space-y-2">
+          <li>8×4090：NT$8000-10000/月</li>
+          <li>8×A100：NT$20000-25000/月</li>
+          <li>8×H100：NT$70000-90000/月</li>
+        </ul>
+      </div>
+    )
+  },
+  '7': {
+    title: 'GPU 雲服務器規格類型有哪些？',
+    excerpt: '一分鐘看懂 GPU 服務器的各種規格和術語，選購不再迷茫。',
+    category: '使用指南',
+    date: '2026-03-01',
+    views: 823,
+    image: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=800&q=80',
+    content: (
+      <div className="space-y-6">
+        <p>GPU 服務器規格參數眾多，FP32、TF32、NVLink、IB 網絡...這些都是什麼意思？這篇文章幫你快速理解。</p>
+
+        <h3 className="text-xl font-bold text-gray-900">一、精度類型</h3>
+        <ul className="list-disc pl-6 space-y-2">
+          <li><strong>FP32（單精度）：</strong>傳統精度，通用計算</li>
+          <li><strong>FP16（半精度）：</strong>AI 訓練常用，速度更快</li>
+          <li><strong>BF16：</strong>Google 提出，適合深度學習</li>
+          <li><strong>INT8/INT4：</strong>量化推理，速度極快</li>
+        </ul>
+
+        <h3 className="text-xl font-bold text-gray-900">二、顯存類型</h3>
+        <ul className="list-disc pl-6 space-y-2">
+          <li><strong>GDDR6X：</strong>消費級，如 RTX 4090</li>
+          <li><strong>HBM2e：</strong>數據中心級，如 A100</li>
+          <li><strong>HBM3：</strong>最新一代，如 H100/H200</li>
+        </ul>
+
+        <h3 className="text-xl font-bold text-gray-900">三、互連技術</h3>
+        <ul className="list-disc pl-6 space-y-2">
+          <li><strong>NVLink：</strong>NVIDIA 多卡互連，帶寬高達 600GB/s</li>
+          <li><strong>PCIe 4.0/5.0：</strong>標準擴展接口</li>
+          <li><strong>InfiniBand：</strong>高速網絡，適合集群</li>
+        </ul>
+
+        <h3 className="text-xl font-bold text-gray-900">四、交付形式</h3>
+        <ul className="list-disc pl-6 space-y-2">
+          <li><strong>容器實例：</strong>輕量化，秒級部署</li>
+          <li><strong>裸金屬：</strong>物理服務器，性能最強</li>
+          <li><strong>虛擬機：</strong>傳統雲服務器模式</li>
+        </ul>
+      </div>
+    )
+  },
+  '8': {
+    title: '成都算力租賃熱潮：中小企業如何搭上數字經濟快車',
+    excerpt: '成都作為西部算力樞紐，正在成為中小企業 AI 轉型的首選地。',
+    category: '行業資訊',
+    date: '2026-02-25',
+    views: 654,
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80',
+    content: (
+      <div className="space-y-6">
+        <p>隨著「東數西算」工程推進，成都已成為西部重要的算力樞紐。中小企業如何抓住這一機遇？</p>
+
+        <h3 className="text-xl font-bold text-gray-900">成都的優勢</h3>
+        <ul className="list-disc pl-6 space-y-2">
+          <li><strong>電力成本低：</strong>水電資源豐富，電價低於全國平均</li>
+          <li><strong>氣候適宜：</strong>年均溫 16°C，自然冷卻條件好</li>
+          <li><strong>政策支持：</strong>政府補貼、稅收優惠</li>
+          <li><strong>人才儲備：</strong>電子科大、川大等高校資源</li>
+        </ul>
+
+        <h3 className="text-xl font-bold text-gray-900">中小企業應用案例</h3>
+        <ul className="list-disc pl-6 space-y-2">
+          <li><strong>AI 初創公司：</strong>租賃 4090 集群，成本降低 60%</li>
+          <li><strong>遊戲工作室：</strong>使用 GPU 渲染，交付時間縮短 50%</li>
+          <li><strong>醫療影像：</strong>雲端 AI 診斷，準確率提升 30%</li>
+        </ul>
+
+        <h3 className="text-xl font-bold text-gray-900">如何選擇服務商</h3>
+        <ul className="list-disc pl-6 space-y-2">
+          <li>查看資質和牌照</li>
+          <li>測試實際性能和網絡</li>
+          <li>了解售後支持能力</li>
+          <li>對比價格和合同條款</li>
+        </ul>
+      </div>
+    )
+  },
 }
 
 export default function NewsArticlePage() {

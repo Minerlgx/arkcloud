@@ -6,8 +6,8 @@ import { Calendar, Eye, ArrowRight } from 'lucide-react'
 const articles = [
   {
     id: 1,
-    title: 'GPU服務器租賃價格多少合適？',
-    excerpt: '全網最詳細的GPU服務器租賃價格分析，幫你選擇性價比最高的方案...',
+    title: 'GPU 服務器租賃價格多少合適？',
+    excerpt: '全網最詳細的 GPU 服務器租賃價格分析，幫你選擇性價比最高的方案',
     category: '價格攻略',
     date: '2026-03-20',
     views: 1256,
@@ -15,8 +15,8 @@ const articles = [
   },
   {
     id: 2,
-    title: 'AI模型訓練需要多大的GPU顯存？',
-    excerpt: '詳細解析不同規模AI模型訓練的顯存需求，幫你選擇合適的GPU配置...',
+    title: 'AI 模型訓練需要多大的 GPU 顯存？',
+    excerpt: '詳細解析不同規模 AI 模型訓練的顯存需求，幫你選擇合適的 GPU 配置',
     category: '技術教程',
     date: '2026-03-18',
     views: 892,
@@ -24,8 +24,8 @@ const articles = [
   },
   {
     id: 3,
-    title: '從通用到智能：GPU算力如何賦能千行百業',
-    excerpt: 'GPU算力在各行業的應用場景分析，包括醫療、金融、製造等領域...',
+    title: '從通用到智能：GPU 算力如何賦能千行百業',
+    excerpt: 'GPU 算力在各行業的應用場景分析，包括醫療、金融、製造等領域',
     category: '行業資訊',
     date: '2026-03-15',
     views: 756,
@@ -34,11 +34,47 @@ const articles = [
   {
     id: 4,
     title: '液冷算力租賃實測：電費省出個愛馬仕',
-    excerpt: '液冷技術在GPU服務器中的應用，節能效果實測報告...',
+    excerpt: '液冷技術在 GPU 服務器中的應用，節能效果實測報告',
     category: '技術教程',
     date: '2026-03-10',
     views: 1023,
     image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80'
+  },
+  {
+    id: 5,
+    title: '算力租賃 vs 自建機房：財務總監不知道的 5 個成本陷阱',
+    excerpt: '很多企業選擇自建機房，但隱藏成本往往被忽視。這篇文章幫你算清真實成本',
+    category: '價格攻略',
+    date: '2026-03-08',
+    views: 945,
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80'
+  },
+  {
+    id: 6,
+    title: '2025GPU 服務器配置和報價全解析',
+    excerpt: '從入門到旗艦，所有主流 GPU 服務器配置和價格一目了然',
+    category: '價格攻略',
+    date: '2026-03-05',
+    views: 1567,
+    image: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80'
+  },
+  {
+    id: 7,
+    title: 'GPU 雲服務器規格類型有哪些？',
+    excerpt: '一分鐘看懂 GPU 服務器的各種規格和術語，選購不再迷茫',
+    category: '使用指南',
+    date: '2026-03-01',
+    views: 823,
+    image: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80'
+  },
+  {
+    id: 8,
+    title: '成都算力租賃熱潮：中小企業如何搭上數字經濟快車',
+    excerpt: '成都作為西部算力樞紐，正在成為中小企業 AI 轉型的首選地',
+    category: '行業資訊',
+    date: '2026-02-25',
+    views: 654,
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80'
   },
 ]
 
@@ -57,7 +93,7 @@ export default function NewsPage() {
       <section className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white py-20">
         <div className="max-w-7xl mx-auto px-6">
           <h1 className="text-5xl font-bold mb-4">算力資訊</h1>
-          <p className="text-xl text-white/80">專業的GPU算力行業資訊與技術教程</p>
+          <p className="text-xl text-white/80">專業的 GPU 算力行業資訊與技術教程</p>
         </div>
       </section>
 
