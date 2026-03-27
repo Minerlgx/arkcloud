@@ -159,8 +159,8 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="md:flex">
-        <aside className="hidden md:block w-64 bg-white border-r border-gray-200 min-h-screen">
-          <div className="sticky top-0 p-6">
+        <aside className="hidden md:block w-64 bg-white border-r border-gray-200 md:min-h-screen md:sticky md:top-0">
+          <div className="p-6 overflow-y-auto md:h-screen">
             <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-2xl font-bold mx-auto mb-3">
               {(user.name || user.email).charAt(0).toUpperCase()}
             </div>
