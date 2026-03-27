@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '@/styles/globals.css'
 import PageWrapper from '@/components/PageWrapper'
+import Providers from '@/components/Providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,9 +22,11 @@ export default function RootLayout({
   return (
     <html lang="zh-TW">
       <body className={inter.className}>
-        <PageWrapper>
-          {children}
-        </PageWrapper>
+        <Providers>
+          <PageWrapper>
+            {children}
+          </PageWrapper>
+        </Providers>
       </body>
     </html>
   )

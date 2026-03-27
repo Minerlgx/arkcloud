@@ -2,14 +2,15 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
+import { signOut, useSession } from 'next-auth/react'
 import { Menu, X, User, LogOut, LayoutDashboard } from 'lucide-react'
 
 export default function Navbar() {
   const router = useRouter()
   const pathname = usePathname()
+  const { data: session, status } = useSession()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const [user, setUser] = useState<any>(null)
   const [showUserMenu, setShowUserMenu] = useState(false)
 
   useEffect(() => {
@@ -18,18 +19,8 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  useEffect(() => {
-    // 检查登录状态
-    const stored = sessionStorage.getItem('user')
-    if (stored) {
-      setUser(JSON.parse(stored))
-    }
-  }, [pathname])
-
-  const handleLogout = () => {
-    sessionStorage.removeItem('user')
-    setUser(null)
-    router.push('/login')
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: '/' })
   }
 
   const navLinks = [
@@ -44,6 +35,8 @@ export default function Navbar() {
   if (pathname === '/login' || pathname === '/register') {
     return null
   }
+
+  const user = session?.user
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
@@ -74,7 +67,9 @@ export default function Navbar() {
 
           {/* Auth/User Section */}
           <div className="hidden md:flex items-center gap-4">
-            {user ? (
+            {status === 'loading' ? (
+              <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            ) : user ? (
               <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
