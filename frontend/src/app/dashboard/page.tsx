@@ -40,46 +40,77 @@ export default function DashboardPage() {
   }, [router])
 
   const fetchOrders = async (userId: string) => {
+    let apiOrders: Order[] = []
+    
     try {
       // 从 API 获取订单
       const data = await api.get(`/orders/user/${userId}`)
-      const apiOrders = data.orders || []
-      
-      // 从 sessionStorage 获取最新支付成功的订单
-      const successOrder = sessionStorage.getItem('orderSuccess')
-      if (successOrder) {
-        const orderData = JSON.parse(successOrder)
-        // 创建新的订单记录
-        const newOrder: Order = {
-          id: 'ORD-' + Date.now(),
+      apiOrders = data.orders || []
+    } catch (err) {
+      console.error('API error:', err)
+      // API 失败时使用演示数据
+      apiOrders = []
+    }
+    
+    // 从 sessionStorage 获取最新支付成功的订单
+    const successOrder = sessionStorage.getItem('orderSuccess')
+    if (successOrder) {
+      const orderData = JSON.parse(successOrder)
+      // 创建新的订单记录
+      const newOrder: Order = {
+        id: 'ORD-' + Date.now(),
+        status: 'active',
+        totalAmount: orderData.totalPrice,
+        billingCycle: orderData.billingCycle,
+        createdAt: orderData.paidAt,
+        items: [orderData.product],
+        instances: [{
+          id: 'INS-' + Date.now(),
+          name: orderData.product.name,
+          status: 'running',
+          ip: '待分配',
+          port: 22,
+          expiresAt: orderData.billingCycle === 'hourly' 
+            ? new Date(Date.now() + 3600000).toISOString()
+            : new Date(Date.now() + 30 * 24 * 3600000).toISOString(),
+        }]
+      }
+      // 添加到订单列表前面
+      apiOrders.unshift(newOrder)
+      // 清除 sessionStorage 中的成功订单
+      sessionStorage.removeItem('orderSuccess')
+    }
+    
+    // 如果还是没有订单，显示演示数据
+    if (apiOrders.length === 0) {
+      apiOrders = [
+        {
+          id: 'ORD-DEMO-001',
           status: 'active',
-          totalAmount: orderData.totalPrice,
-          billingCycle: orderData.billingCycle,
-          createdAt: orderData.paidAt,
-          items: [orderData.product],
+          totalAmount: 2999,
+          billingCycle: 'monthly',
+          createdAt: new Date(Date.now() - 7 * 24 * 3600000).toISOString(),
+          items: [{
+            id: 'prod-001',
+            name: 'H100 SXM 80GB GPU 雲端伺服器',
+            slug: 'h100-sxm-80gb',
+            gpu: 'NVIDIA H100 SXM',
+            vram: '80GB HBM3',
+          }],
           instances: [{
-            id: 'INS-' + Date.now(),
-            name: orderData.product.name,
+            id: 'INS-DEMO-001',
+            name: 'H100 SXM 80GB GPU 雲端伺服器',
             status: 'running',
-            ip: '待分配',
+            ip: '10.0.0.101',
             port: 22,
-            expiresAt: orderData.billingCycle === 'hourly' 
-              ? new Date(Date.now() + 3600000).toISOString()
-              : new Date(Date.now() + 30 * 24 * 3600000).toISOString(),
+            expiresAt: new Date(Date.now() + 23 * 24 * 3600000).toISOString(),
           }]
         }
-        // 添加到订单列表前面
-        apiOrders.unshift(newOrder)
-        // 清除 sessionStorage 中的成功订单
-        sessionStorage.removeItem('orderSuccess')
-      }
-      
-      setOrders(apiOrders)
-    } catch (err) {
-      console.error(err)
-    } finally {
-      setLoading(false)
+      ]
     }
+    
+    setOrders(apiOrders)
+    setLoading(false)
   }
 
   const handleLogout = () => {

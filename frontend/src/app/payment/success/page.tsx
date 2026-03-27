@@ -93,7 +93,7 @@ export default function PaymentSuccessPage() {
         {/* Actions */}
         <div className="space-y-3">
           <Link 
-            href="/dashboard/instances"
+            href="/dashboard"
             className="block w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-xl transition-all flex items-center justify-center gap-2"
           >
             查看我的實例
