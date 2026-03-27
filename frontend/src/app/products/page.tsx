@@ -307,16 +307,28 @@ export default function ProductsPage() {
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-700 mb-3">付款方式</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-3">選擇計費方式</label>
               <div className="grid grid-cols-2 gap-3">
-                {['HOURLY', 'MONTHLY', 'QUARTERLY', 'YEARLY'].map(cycle => (
-                  <button key={cycle} onClick={() => setDeployModal({...deployModal, billingCycle: cycle as any})}
-                    className={`p-4 rounded-2xl text-sm font-semibold transition-all border-2 ${
-                      deployModal.billingCycle === cycle 
-                        ? 'border-blue-600 bg-blue-50 text-blue-600 shadow-lg shadow-blue-500/20' 
+                {[
+                  { cycle: 'HOURLY', label: '按時計費', price: deployModal.product.priceHourly, unit: '/小時', color: 'emerald' },
+                  { cycle: 'MONTHLY', label: '月付', discount: '86折', price: deployModal.product.priceMonthly, unit: '/月', color: 'blue' },
+                  { cycle: 'QUARTERLY', label: '季付', discount: '8折', price: deployModal.product.priceMonthly * 3, unit: '/季', color: 'indigo' },
+                  { cycle: 'YEARLY', label: '年付', discount: '75折', price: deployModal.product.priceMonthly * 12, unit: '/年', color: 'violet' },
+                ].map(item => (
+                  <button key={item.cycle} onClick={() => setDeployModal({...deployModal, billingCycle: item.cycle as any})}
+                    className={`p-4 rounded-2xl text-sm font-semibold transition-all border-2 relative ${
+                      deployModal.billingCycle === item.cycle 
+                        ? `border-${item.color}-600 bg-${item.color}-50 text-${item.color}-600 shadow-lg` 
                         : 'border-gray-200 text-gray-600 hover:border-gray-300 bg-white'
                     }`}>
-                    {getCycleLabel(cycle)}
+                    {item.discount && (
+                      <span className={`absolute -top-2 -right-2 px-2 py-0.5 bg-${item.color}-500 text-white text-xs font-bold rounded-full`}>
+                        {item.discount}
+                      </span>
+                    )}
+                    <div className="font-bold mb-1">{item.label}</div>
+                    <div className="text-lg font-bold">NT${item.price.toFixed(0)}</div>
+                    <div className="text-xs text-gray-400">{item.unit}</div>
                   </button>
                 ))}
               </div>
@@ -325,6 +337,7 @@ export default function ProductsPage() {
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 mb-6">
               <div className="flex justify-between mb-2 text-sm"><span className="text-gray-600">單價</span><span className="font-semibold text-gray-900">NT${deployModal.product.priceHourly.toFixed(2)}/小時</span></div>
               <div className="flex justify-between mb-2 text-sm"><span className="text-gray-600">數量</span><span className="font-semibold text-gray-900">x {deployModal.quantity}</span></div>
+              <div className="flex justify-between mb-2 text-sm"><span className="text-gray-600">計費方式</span><span className="font-semibold text-gray-900">{getCycleLabel(deployModal.billingCycle)}</span></div>
               <div className="flex justify-between font-bold text-xl pt-4 border-t border-blue-200">
                 <span className="text-gray-900">費用</span>
                 <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
