@@ -70,6 +70,28 @@ export default function InstanceDetailPage() {
     alert('已複製到剪貼板')
   }
 
+  const handleDelete = () => {
+    if (!confirm('確定要刪除此實例嗎？刪除後將無法恢復。')) {
+      return
+    }
+    
+    // 从 sessionStorage 中删除订单
+    const paidOrdersData = sessionStorage.getItem('paidOrders')
+    if (paidOrdersData) {
+      const paidOrders = JSON.parse(paidOrdersData)
+      // 删除最后一个订单（当前实例对应的订单）
+      const newOrders = paidOrders.slice(0, -1)
+      if (newOrders.length > 0) {
+        sessionStorage.setItem('paidOrders', JSON.stringify(newOrders))
+      } else {
+        sessionStorage.removeItem('paidOrders')
+      }
+    }
+    
+    // 跳回会员中心
+    router.push('/dashboard')
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -250,6 +272,7 @@ export default function InstanceDetailPage() {
 
                   <div className="border-t border-gray-200 pt-3 mt-3">
                     <button
+                      onClick={handleDelete}
                       className="w-full py-3 bg-red-50 hover:bg-red-100 text-red-600 font-medium rounded-xl flex items-center justify-center gap-2"
                     >
                       <Trash2 className="w-5 h-5" />
