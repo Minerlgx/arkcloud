@@ -127,7 +127,7 @@ export default function CheckoutPage() {
             <ArrowLeft className="w-4 h-4" />
             返回產品詳情
           </Link>
-          <h1 className="text-3xl font-bold text-gray-900">確認訂單</h1>
+          <h1 className="text-3xl font-bold text-gray-900">選擇計費方式</h1>
         </div>
       </section>
 
@@ -156,7 +156,7 @@ export default function CheckoutPage() {
 
               {/* Billing Cycle */}
               <div className="bg-white rounded-2xl p-6 shadow-sm">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">計費方式</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-4">選擇計費方式</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <button
                     onClick={() => setBillingCycle('hourly')}
@@ -191,23 +191,10 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* Payment Method */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">付款方式</h2>
-                <div className="space-y-3">
-                  {[
-                    { id: 'card', name: '信用卡/借記卡', icon: '💳' },
-                    { id: 'transfer', name: '銀行轉帳', icon: '🏦' },
-                    { id: 'alipay', name: '支付寶', icon: '📱' },
-                    { id: 'wechat', name: '微信支付', icon: '💬' },
-                  ].map((method) => (
-                    <label key={method.id} className="flex items-center gap-3 p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
-                      <input type="radio" name="payment" value={method.id} className="w-4 h-4 text-blue-600" defaultChecked={method.id === 'card'} />
-                      <span className="text-2xl">{method.icon}</span>
-                      <span className="font-medium">{method.name}</span>
-                    </label>
-                  ))}
-                </div>
+              {/* Notice */}
+              <div className="bg-blue-50 rounded-2xl p-6 border border-blue-100">
+                <h3 className="font-bold text-blue-900 mb-2">下一步</h3>
+                <p className="text-blue-700 text-sm">點擊「前往支付」後，您將選擇支付方式並完成付款。</p>
               </div>
             </div>
 
@@ -248,7 +235,7 @@ export default function CheckoutPage() {
                   ) : (
                     <>
                       <Check className="w-5 h-5" />
-                      確認訂購
+                      前往支付
                     </>
                   )}
                 </button>
