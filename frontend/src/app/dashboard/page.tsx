@@ -48,37 +48,36 @@ export default function DashboardPage() {
       apiOrders = data.orders || []
     } catch (err) {
       console.error('API error:', err)
-      // API 失败时使用演示数据
+      // API 失败时使用空数组
       apiOrders = []
     }
     
-    // 从 sessionStorage 获取最新支付成功的订单
-    const successOrder = sessionStorage.getItem('orderSuccess')
-    if (successOrder) {
-      const orderData = JSON.parse(successOrder)
-      // 创建新的订单记录
-      const newOrder: Order = {
-        id: 'ORD-' + Date.now(),
-        status: 'active',
-        totalAmount: orderData.totalPrice,
-        billingCycle: orderData.billingCycle,
-        createdAt: orderData.paidAt,
-        items: [orderData.product],
-        instances: [{
-          id: 'INS-' + Date.now(),
-          name: orderData.product.name,
-          status: 'running',
-          ip: '待分配',
-          port: 22,
-          expiresAt: orderData.billingCycle === 'hourly' 
-            ? new Date(Date.now() + 3600000).toISOString()
-            : new Date(Date.now() + 30 * 24 * 3600000).toISOString(),
-        }]
-      }
-      // 添加到订单列表前面
-      apiOrders.unshift(newOrder)
-      // 清除 sessionStorage 中的成功订单
-      sessionStorage.removeItem('orderSuccess')
+    // 从 sessionStorage 获取所有支付成功的订单
+    const paidOrdersData = sessionStorage.getItem('paidOrders')
+    if (paidOrdersData) {
+      const paidOrders = JSON.parse(paidOrdersData)
+      // 将每个支付成功的订单转换为 Order 格式
+      paidOrders.forEach((orderData: any, index: number) => {
+        const newOrder: Order = {
+          id: orderData.orderId || `ORD-${Date.now() - index}`,
+          status: 'active',
+          totalAmount: orderData.totalPrice,
+          billingCycle: orderData.billingCycle,
+          createdAt: orderData.paidAt,
+          items: [orderData.product],
+          instances: [{
+            id: `INS-${Date.now() - index}`,
+            name: orderData.product.name,
+            status: 'running',
+            ip: `10.0.0.${101 + index}`,
+            port: 22,
+            expiresAt: orderData.billingCycle === 'hourly' 
+              ? new Date(Date.now() + 3600000).toISOString()
+              : new Date(Date.now() + 30 * 24 * 3600000).toISOString(),
+          }]
+        }
+        apiOrders.unshift(newOrder)
+      })
     }
     
     // 如果还是没有订单，显示演示数据
