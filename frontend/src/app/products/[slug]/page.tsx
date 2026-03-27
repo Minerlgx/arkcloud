@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
-import Link from 'next/link'
 import { Cpu, MemoryStick, HardDrive, Clock, Check, ArrowLeft, Server } from 'lucide-react'
 import api from '@/lib/api'
 
