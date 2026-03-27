@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Cpu, MemoryStick, HardDrive, Clock, Check, ArrowLeft, Server } from 'lucide-react'
 import api from '@/lib/api'
@@ -28,6 +28,7 @@ export default function ProductDetailPage() {
   const slug = params.slug as string
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
     fetchProduct()
@@ -171,12 +172,21 @@ export default function ProductDetailPage() {
               </div>
 
               {/* CTA */}
-              <Link 
-                href="/register"
-                className="block w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-xl transition-all shadow-lg text-center"
+              <button 
+                onClick={() => {
+                  const stored = sessionStorage.getItem('user')
+                  if (stored) {
+                    // 已登录，跳转到租用流程或会员中心
+                    router.push('/dashboard')
+                  } else {
+                    // 未登录，跳转到登录
+                    router.push('/login')
+                  }
+                }}
+                className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-xl transition-all shadow-lg"
               >
                 立即租用
-              </Link>
+              </button>
 
               {product.stock < 10 && (
                 <div className="text-center text-orange-600 text-sm">
