@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Cpu, MemoryStick, HardDrive, Clock, Check, ArrowLeft, Server } from 'lucide-react'
+import { Cpu, MemoryStick, HardDrive, Clock, Check, ArrowLeft, Server, Minus, Plus } from 'lucide-react'
 import api from '@/lib/api'
 
 interface Product {
@@ -28,6 +28,8 @@ export default function ProductDetailPage() {
   const slug = params.slug as string
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
+  const [quantity, setQuantity] = useState(1)
+  const [billingCycle, setBillingCycle] = useState<'HOURLY' | 'MONTHLY'>('HOURLY')
   const router = useRouter()
 
   useEffect(() => {
@@ -171,21 +173,75 @@ export default function ProductDetailPage() {
                 </div>
               </div>
 
+              {/* Quantity & Billing */}
+              <div className="bg-gray-50 rounded-2xl p-6">
+                <div className="mb-4">
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">選擇數量</label>
+                  <div className="flex items-center gap-4 bg-white rounded-xl p-2">
+                    <button 
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center justify-center transition-colors"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <span className="text-xl font-bold flex-1 text-center">{quantity}</span>
+                    <button 
+                      onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                      className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center justify-center transition-colors"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                    <span className="text-gray-400 text-sm ml-2">庫存: {product.stock}</span>
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">計費方式</label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      onClick={() => setBillingCycle('HOURLY')}
+                      className={`p-4 rounded-xl text-sm font-semibold transition-all border-2 ${
+                        billingCycle === 'HOURLY' 
+                          ? 'border-blue-600 bg-blue-50 text-blue-600' 
+                          : 'border-gray-200 text-gray-600 hover:border-gray-300 bg-white'
+                      }`}
+                    >
+                      <div className="font-bold mb-1">按時計費</div>
+                      <div className="text-lg font-bold">NT${product.priceHourly}</div>
+                      <div className="text-xs text-gray-400">/小時</div>
+                    </button>
+                    <button
+                      onClick={() => setBillingCycle('MONTHLY')}
+                      className={`p-4 rounded-xl text-sm font-semibold transition-all border-2 relative ${
+                        billingCycle === 'MONTHLY' 
+                          ? 'border-blue-600 bg-blue-50 text-blue-600' 
+                          : 'border-gray-200 text-gray-600 hover:border-gray-300 bg-white'
+                      }`}
+                    >
+                      <span className="absolute -top-2 -right-2 px-2 py-0.5 bg-blue-500 text-white text-xs font-bold rounded-full">86折</span>
+                      <div className="font-bold mb-1">月付方案</div>
+                      <div className="text-lg font-bold">NT${product.priceMonthly}</div>
+                      <div className="text-xs text-gray-400">/月</div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               {/* CTA */}
               <button 
                 onClick={() => {
                   const stored = sessionStorage.getItem('user')
                   if (stored) {
                     // 已登录，跳转到结算页面
-                    router.push(`/checkout?product=${product.slug}`)
+                    router.push(`/checkout?product=${product.slug}&quantity=${quantity}&cycle=${billingCycle}`)
                   } else {
                     // 未登录，跳转到登录，登录后返回结算页面
-                    router.push(`/login?redirect=/checkout?product=${product.slug}`)
+                    router.push(`/login?redirect=/checkout?product=${product.slug}&quantity=${quantity}&cycle=${billingCycle}`)
                   }
                 }}
                 className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-xl transition-all shadow-lg"
               >
-                立即租用
+                立即租用 {quantity > 1 && `× ${quantity}`}
               </button>
 
               {product.stock < 10 && (

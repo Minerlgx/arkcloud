@@ -22,11 +22,11 @@ export default function CheckoutPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const slug = searchParams.get('product')
-  
   const [user, setUser] = useState<any>(null)
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
   const [billingCycle, setBillingCycle] = useState<'hourly' | 'monthly'>('monthly')
+  const [quantity, setQuantity] = useState(1)
   const [processing, setProcessing] = useState(false)
 
   useEffect(() => {
@@ -37,6 +37,16 @@ export default function CheckoutPage() {
       return
     }
     setUser(JSON.parse(stored))
+    
+    // 获取 URL 参数
+    const cycleParam = searchParams.get('cycle')
+    const qtyParam = searchParams.get('quantity')
+    if (cycleParam === 'HOURLY' || cycleParam === 'MONTHLY') {
+      setBillingCycle(cycleParam === 'HOURLY' ? 'hourly' : 'monthly')
+    }
+    if (qtyParam) {
+      setQuantity(parseInt(qtyParam) || 1)
+    }
     
     // 获取产品信息
     if (slug) {
@@ -75,6 +85,7 @@ export default function CheckoutPage() {
           priceHourly: product.priceHourly,
           priceMonthly: product.priceMonthly,
         },
+        quantity,
         billingCycle,
         paymentMethod: 'card',
         totalPrice: price,
@@ -112,7 +123,7 @@ export default function CheckoutPage() {
     )
   }
 
-  const price = billingCycle === 'hourly' ? product.priceHourly : product.priceMonthly
+  const price = (billingCycle === 'hourly' ? product.priceHourly : product.priceMonthly) * quantity
   const priceLabel = billingCycle === 'hourly' ? '/小時' : '/月'
 
   return (
@@ -209,6 +220,10 @@ export default function CheckoutPage() {
                     <span className="font-medium">{product.name}</span>
                   </div>
                   <div className="flex justify-between text-gray-600">
+                    <span>數量</span>
+                    <span className="font-medium">× {quantity}</span>
+                  </div>
+                  <div className="flex justify-between text-gray-600">
                     <span>計費方式</span>
                     <span className="font-medium">{billingCycle === 'hourly' ? '按時計費' : '月付方案'}</span>
                   </div>
@@ -219,7 +234,7 @@ export default function CheckoutPage() {
                     <span className="text-gray-600">費用</span>
                     <span className="text-3xl font-bold text-blue-600">NT${price}</span>
                   </div>
-                  <div className="text-right text-gray-500 text-sm">{priceLabel}</div>
+                  <div className="text-right text-gray-500 text-sm">{priceLabel} × {quantity}</div>
                 </div>
 
                 <button
