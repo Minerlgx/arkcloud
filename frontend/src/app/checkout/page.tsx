@@ -60,11 +60,30 @@ export default function CheckoutPage() {
   }
 
   const handleCheckout = async () => {
+    if (!product) return
+    
     setProcessing(true)
     try {
-      // TODO: 實際的訂單創建邏輯
-      alert('訂單創建成功！即將跳轉到我的實例...')
-      router.push('/dashboard/instances')
+      // 保存訂單信息到 sessionStorage
+      const orderData = {
+        product: {
+          id: product.id,
+          name: product.name,
+          slug: product.slug,
+          gpu: product.gpu,
+          vram: product.vram,
+          priceHourly: product.priceHourly,
+          priceMonthly: product.priceMonthly,
+        },
+        billingCycle,
+        paymentMethod: 'card',
+        totalPrice: price,
+        createdAt: new Date().toISOString(),
+      }
+      sessionStorage.setItem('pendingOrder', JSON.stringify(orderData))
+      
+      // 跳轉到支付頁面
+      router.push('/payment')
     } catch (err) {
       alert('訂單創建失敗，請稍後重試')
     } finally {
