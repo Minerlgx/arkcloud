@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import Link from 'next/link'
 import { Cpu, MemoryStick, HardDrive, Clock, Check, ArrowLeft, Server } from 'lucide-react'
 import api from '@/lib/api'
 
@@ -171,9 +172,12 @@ export default function ProductDetailPage() {
               </div>
 
               {/* CTA */}
-              <button className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-xl transition-all shadow-lg">
+              <Link 
+                href="/register"
+                className="block w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-xl transition-all shadow-lg text-center"
+              >
                 立即租用
-              </button>
+              </Link>
 
               {product.stock < 10 && (
                 <div className="text-center text-orange-600 text-sm">
