@@ -162,7 +162,7 @@ export default function MarketsPage() {
                     <div className="flex items-center justify-between">
                       <div>
                         <span className="text-2xl font-bold text-blue-600">NT${product.priceHourly}</span>
-                        <span className="text-gray-400 text-sm">/小时</span>
+                        <span className="text-gray-400 text-sm">/h</span>
                       </div>
                       <Link 
                         href={`/products/${product.slug}`}
