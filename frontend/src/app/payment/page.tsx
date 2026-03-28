@@ -149,7 +149,7 @@ export default function PaymentPage() {
   }
 
   const price = order.billingCycle === 'hourly' ? order.product.priceHourly : order.product.priceMonthly
-  const priceLabel = order.billingCycle === 'hourly' ? '/小時' : '/月'
+  const priceLabel = order.billingCycle === 'hourly' ? '/h' : '/月'
   const balanceInsufficient = selectedMethod === 'balance' && balance.available < order.totalPrice
 
   return (

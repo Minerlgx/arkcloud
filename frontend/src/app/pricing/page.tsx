@@ -125,19 +125,19 @@ export default function PricingPage() {
               <tbody className="text-gray-900">
                 <tr className="border-b border-gray-100">
                   <td className="py-4 font-medium">RTX 4090</td>
-                  <td className="py-4 text-right">NT$0.8/小時</td>
+                  <td className="py-4 text-right">NT$0.8/h</td>
                   <td className="py-4 text-right">NT$480/月</td>
                   <td className="py-4 text-right text-blue-600 font-bold">NT$4,320/年</td>
                 </tr>
                 <tr className="border-b border-gray-100">
                   <td className="py-4 font-medium">H100 80GB</td>
-                  <td className="py-4 text-right">NT$2.5/小時</td>
+                  <td className="py-4 text-right">NT$2.5/h</td>
                   <td className="py-4 text-right">NT$1,500/月</td>
                   <td className="py-4 text-right text-blue-600 font-bold">NT$13,500/年</td>
                 </tr>
                 <tr>
                   <td className="py-4 font-medium">H200 141GB</td>
-                  <td className="py-4 text-right">NT$3.5/小時</td>
+                  <td className="py-4 text-right">NT$3.5/h</td>
                   <td className="py-4 text-right">NT$2,100/月</td>
                   <td className="py-4 text-right text-blue-600 font-bold">NT$18,900/年</td>
                 </tr>

@@ -124,7 +124,7 @@ function CheckoutContent() {
   }
 
   const price = (billingCycle === 'hourly' ? product.priceHourly : product.priceMonthly) * quantity
-  const priceLabel = billingCycle === 'hourly' ? '/小時' : '/月'
+  const priceLabel = billingCycle === 'hourly' ? '/h' : '/月'
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -182,7 +182,7 @@ function CheckoutContent() {
                       <span className="font-bold">按時計費</span>
                     </div>
                     <div className="text-2xl font-bold text-blue-600">NT${product.priceHourly}</div>
-                    <div className="text-sm text-gray-500">/小時</div>
+                    <div className="text-sm text-gray-500">/h</div>
                   </button>
                   <button
                     onClick={() => setBillingCycle('monthly')}

@@ -446,7 +446,7 @@ export default function ProductsPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">價格/小時 (NT$)</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">價格/h (NT$)</label>
                 <input 
                   type="number" 
                   step="0.01" 

@@ -105,7 +105,7 @@ export default function FeaturedProducts() {
             <div className="flex items-end justify-between">
               <div>
                 <span className="text-2xl font-bold text-primary">NT${product.priceHourly.toFixed(2)}</span>
-                <span className="text-gray-400">/小時</span>
+                <span className="text-gray-400">/h</span>
               </div>
               <span className="flex items-center gap-1 px-4 py-2 bg-primary/10 hover:bg-primary/20 rounded-lg text-primary text-sm font-medium transition-colors">
                 詳情 <ArrowRight className="w-4 h-4" />

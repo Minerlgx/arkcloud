@@ -26,7 +26,7 @@ const articles: Record<string, {
         
         <h3 className="text-xl font-bold text-gray-900">一、影響價格的主要因素</h3>
         <ul className="list-disc pl-6 space-y-2">
-          <li><strong>GPU 型號：</strong>RTX 4090 約 NT$0.8/小時，A100 約 NT$2.5/小時，H100 約 NT$4-6/小時</li>
+          <li><strong>GPU 型號：</strong>RTX 4090 約 NT$0.8/h，A100 約 NT$2.5/h，H100 約 NT$4-6/h</li>
           <li><strong>顯存大小：</strong>24GB、48GB、80GB，顯存越大價格越高</li>
           <li><strong>計費方式：</strong>按時計費最貴，月付 86 折，年付 75 折</li>
           <li><strong>附加服務：</strong>是否包含存儲、帶寬、技術支持等</li>

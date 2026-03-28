@@ -230,7 +230,7 @@ export default function ProductsPage() {
                   <div className="absolute bottom-4 right-4">
                     <div className="bg-white/95 backdrop-blur-sm rounded-xl px-4 py-2 shadow-lg">
                       <span className="text-2xl font-bold text-blue-600">NT${product.priceHourly.toFixed(2)}</span>
-                      <span className="text-gray-500 text-sm">/小時</span>
+                      <span className="text-gray-500 text-sm">/h</span>
                     </div>
                   </div>
                 </div>
@@ -310,7 +310,7 @@ export default function ProductsPage() {
               <label className="block text-sm font-semibold text-gray-700 mb-3">選擇計費方式</label>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { cycle: 'HOURLY', label: '按時計費', price: deployModal.product.priceHourly, unit: '/小時', color: 'emerald' },
+                  { cycle: 'HOURLY', label: '按時計費', price: deployModal.product.priceHourly, unit: '/h', color: 'emerald' },
                   { cycle: 'MONTHLY', label: '月付', discount: '86折', price: deployModal.product.priceMonthly, unit: '/月', color: 'blue' },
                   { cycle: 'QUARTERLY', label: '季付', discount: '8折', price: deployModal.product.priceMonthly * 3, unit: '/季', color: 'indigo' },
                   { cycle: 'YEARLY', label: '年付', discount: '75折', price: deployModal.product.priceMonthly * 12, unit: '/年', color: 'violet' },
@@ -335,7 +335,7 @@ export default function ProductsPage() {
             </div>
 
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 mb-6">
-              <div className="flex justify-between mb-2 text-sm"><span className="text-gray-600">單價</span><span className="font-semibold text-gray-900">NT${deployModal.product.priceHourly.toFixed(2)}/小時</span></div>
+              <div className="flex justify-between mb-2 text-sm"><span className="text-gray-600">單價</span><span className="font-semibold text-gray-900">NT${deployModal.product.priceHourly.toFixed(2)}/h</span></div>
               <div className="flex justify-between mb-2 text-sm"><span className="text-gray-600">數量</span><span className="font-semibold text-gray-900">x {deployModal.quantity}</span></div>
               <div className="flex justify-between mb-2 text-sm"><span className="text-gray-600">計費方式</span><span className="font-semibold text-gray-900">{getCycleLabel(deployModal.billingCycle)}</span></div>
               <div className="flex justify-between font-bold text-xl pt-4 border-t border-blue-200">

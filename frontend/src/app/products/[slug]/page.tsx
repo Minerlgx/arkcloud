@@ -89,7 +89,7 @@ export default function ProductDetailPage() {
             </div>
             <div className="text-right">
               <div className="text-4xl font-bold text-blue-600 mb-1">NT${product.priceHourly}</div>
-              <div className="text-gray-500">/小時</div>
+              <div className="text-gray-500">/h</div>
               <div className="text-sm text-gray-400 mt-2">月付：NT${product.priceMonthly}</div>
             </div>
           </div>
@@ -158,7 +158,7 @@ export default function ProductDetailPage() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span>按時計費</span>
-                    <span className="font-bold">NT${product.priceHourly}/小時</span>
+                    <span className="font-bold">NT${product.priceHourly}/h</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span>月付方案</span>
@@ -208,7 +208,7 @@ export default function ProductDetailPage() {
                     >
                       <div className="font-bold mb-1">按時計費</div>
                       <div className="text-lg font-bold">NT${product.priceHourly}</div>
-                      <div className="text-xs text-gray-400">/小時</div>
+                      <div className="text-xs text-gray-400">/h</div>
                     </button>
                     <button
                       onClick={() => setBillingCycle('MONTHLY')}
