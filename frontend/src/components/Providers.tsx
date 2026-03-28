@@ -1,6 +1,5 @@
 'use client'
-import { SessionProvider } from 'next-auth/react'
-
+// 使用 sessionStorage 进行本地认证，不需要 SessionProvider
 export default function Providers({ children }: { children: React.ReactNode }) {
-  return <SessionProvider>{children}</SessionProvider>
+  return <>{children}</>
 }
