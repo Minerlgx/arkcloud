@@ -1,8 +1,8 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { Check, CreditCard, Clock, ArrowLeft } from 'lucide-react'
+import { Check, CreditCard, Clock, ArrowLeft, Loader2 } from 'lucide-react'
 import api from '@/lib/api'
 
 interface Product {
@@ -18,7 +18,7 @@ interface Product {
   stock: number
 }
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const slug = searchParams.get('product')
@@ -54,7 +54,7 @@ export default function CheckoutPage() {
     } else {
       router.push('/markets')
     }
-  }, [slug])
+  }, [slug, searchParams])
 
   const fetchProduct = async () => {
     setLoading(true)
@@ -105,7 +105,7 @@ export default function CheckoutPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
       </div>
     )
   }
@@ -264,5 +264,21 @@ export default function CheckoutPage() {
         </div>
       </section>
     </div>
+  )
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
+    </div>
+  )
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <CheckoutContent />
+    </Suspense>
   )
 }
