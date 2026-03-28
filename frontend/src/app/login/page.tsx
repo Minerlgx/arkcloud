@@ -31,8 +31,9 @@ function LoginContent() {
       let data
       try {
         data = JSON.parse(text)
-      } catch {
-        setError('服務器錯誤，請稍後重試')
+      } catch (e) {
+        // 显示收到的内容帮助调试
+        setError(`服務器錯誤: ${text.substring(0, 50)}`)
         setLoading(false)
         return
       }
