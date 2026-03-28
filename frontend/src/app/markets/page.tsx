@@ -166,7 +166,7 @@ export default function MarketsPage() {
                       </div>
                       <Link 
                         href={`/products/${product.slug}`}
-                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-colors"
+                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-colors whitespace-nowrap"
                       >
                         查看详情
                       </Link>
