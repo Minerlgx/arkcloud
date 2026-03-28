@@ -50,12 +50,18 @@ export default function PaymentPage() {
     if (userData) {
       const user = JSON.parse(userData)
       setUser(user)
-      // 模拟用户余额（演示用）
-      setBalance({
-        balance: 5000, // 账户余额 NT$5000
-        frozen: 0,
-        available: 5000
-      })
+      // 从 sessionStorage 获取保存的余额
+      const savedBalance = sessionStorage.getItem('userBalance')
+      if (savedBalance) {
+        setBalance(JSON.parse(savedBalance))
+      } else {
+        // 默认演示余额
+        setBalance({
+          balance: 5000,
+          frozen: 0,
+          available: 5000
+        })
+      }
     }
     
     setLoading(false)
@@ -66,12 +72,28 @@ export default function PaymentPage() {
     
     // 检查余额是否足够
     if (selectedMethod === 'balance' && balance.available < order.totalPrice) {
-      setShowTopUp(true)
+      alert('餘額不足，請先充值')
       return
     }
     
     setProcessing(true)
     try {
+      // 如果使用余额支付，先扣除余额
+      if (selectedMethod === 'balance') {
+        const newBalance = balance.available - order.totalPrice
+        setBalance({
+          balance: newBalance,
+          frozen: 0,
+          available: newBalance
+        })
+        // 保存新余额到 sessionStorage
+        sessionStorage.setItem('userBalance', JSON.stringify({
+          balance: newBalance,
+          frozen: 0,
+          available: newBalance
+        }))
+      }
+      
       // 模拟支付过程
       await new Promise(resolve => setTimeout(resolve, 2000))
       
@@ -81,6 +103,7 @@ export default function PaymentPage() {
         paymentStatus: 'paid', 
         paidAt: new Date().toISOString(),
         orderId: 'ORD-' + Date.now(),
+        paymentMethod: selectedMethod,
       }
       
       // 获取已有订单列表
