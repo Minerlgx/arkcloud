@@ -20,8 +20,7 @@ function LoginContent() {
     setMessage('')
     
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://arkcloud.top'
-      const res = await fetch(`${API_URL}/api/users/login`, {
+      const res = await fetch('/api/users/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

@@ -16,8 +16,7 @@ export default function RegisterPage() {
     
     try {
       // 真实注册 - 调用后端 API
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
-      const response = await fetch(`${API_URL}/api/users/register`, {
+      const response = await fetch('/api/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
