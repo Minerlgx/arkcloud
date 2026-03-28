@@ -61,7 +61,7 @@ export default function ProductsPage() {
   }
 
   const compressImageToDataUrl = async (file: File): Promise<string> => {
-    // 后端当前可能仍有限制 JSON 请求体大小；这里把图片压到尽量小，避免 PayloadTooLargeError
+    // 后端当前可能仍有限制 JSON 请求体大小；这里把圖片压到尽量小，避免 PayloadTooLargeError
     // 后台表格缩略图显示很小（~48px），没必要传大图；给足安全余量
     const targetMaxBytes = 25000 // 经验值：尽量压到 < 25KB（更稳）
     const maxDim = 320
@@ -70,7 +70,7 @@ export default function ProductsPage() {
       new Promise<HTMLImageElement>((resolve, reject) => {
         const img = new Image()
         img.onload = () => resolve(img)
-        img.onerror = () => reject(new Error('图片加载失败'))
+        img.onerror = () => reject(new Error('圖片載入失敗'))
         img.src = src
       })
 
@@ -96,7 +96,7 @@ export default function ProductsPage() {
       canvas.width = width
       canvas.height = height
       const ctx = canvas.getContext('2d')
-      if (!ctx) throw new Error('Canvas 初始化失败')
+      if (!ctx) throw new Error('Canvas 初始化失敗')
 
       ctx.drawImage(img, 0, 0, width, height)
 
@@ -137,7 +137,7 @@ export default function ProductsPage() {
       setForm({ ...form, image: compressed, imageChanged: true })
     } catch (err) {
       const msg = err instanceof Error ? err.message : '上傳失敗'
-      alert(msg.includes('PayloadTooLarge') ? '图片太大，后台无法接收（请换更小的图）' : msg)
+      alert(msg.includes('PayloadTooLarge') ? '圖片太大，后台無法接收（请换更小的图）' : msg)
     } finally {
       setUploading(false)
     }

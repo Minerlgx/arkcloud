@@ -18,7 +18,7 @@ export default function InstanceDetailPage() {
       return
     }
     
-    // 从 sessionStorage 获取实例信息
+    // 从 sessionStorage 获取實例信息
     const orderSuccess = sessionStorage.getItem('orderSuccess')
     if (orderSuccess) {
       const order = JSON.parse(orderSuccess)
@@ -35,7 +35,7 @@ export default function InstanceDetailPage() {
           : new Date(Date.now() + 30 * 24 * 3600000),
       })
     } else {
-      // 演示数据
+      // 演示數據
       setInstance({
         id: params.id || 'INS-DEMO-001',
         name: 'H100 SXM 80GB GPU 雲端伺服器',
@@ -75,11 +75,11 @@ export default function InstanceDetailPage() {
       return
     }
     
-    // 从 sessionStorage 中删除订单
+    // 从 sessionStorage 中刪除訂單
     const paidOrdersData = sessionStorage.getItem('paidOrders')
     if (paidOrdersData) {
       const paidOrders = JSON.parse(paidOrdersData)
-      // 删除最后一个订单（当前实例对应的订单）
+      // 刪除最后一个訂單（当前實例对应的訂單）
       const newOrders = paidOrders.slice(0, -1)
       if (newOrders.length > 0) {
         sessionStorage.setItem('paidOrders', JSON.stringify(newOrders))
@@ -88,7 +88,7 @@ export default function InstanceDetailPage() {
       }
     }
     
-    // 跳回会员中心
+    // 跳回會員中心
     router.push('/dashboard')
   }
 

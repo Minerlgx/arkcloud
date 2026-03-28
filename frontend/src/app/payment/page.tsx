@@ -36,7 +36,7 @@ export default function PaymentPage() {
   const [selectedMethod, setSelectedMethod] = useState('balance') // 默认余额支付
 
   useEffect(() => {
-    // 从 sessionStorage 获取订单信息
+    // 从 sessionStorage 获取訂單信息
     const orderData = sessionStorage.getItem('pendingOrder')
     const userData = sessionStorage.getItem('user')
     
@@ -97,7 +97,7 @@ export default function PaymentPage() {
       // 模拟支付过程
       await new Promise(resolve => setTimeout(resolve, 2000))
       
-      // 支付成功，保存订单到历史列表
+      // 支付成功，保存訂單到历史列表
       const paidOrder = { 
         ...order, 
         paymentStatus: 'paid', 
@@ -106,15 +106,15 @@ export default function PaymentPage() {
         paymentMethod: selectedMethod,
       }
       
-      // 获取已有订单列表
+      // 获取已有訂單列表
       const existingOrders = sessionStorage.getItem('paidOrders')
       const ordersList = existingOrders ? JSON.parse(existingOrders) : []
-      // 添加新订单到列表
+      // 添加新訂單到列表
       ordersList.push(paidOrder)
       // 保存回 sessionStorage
       sessionStorage.setItem('paidOrders', JSON.stringify(ordersList))
       
-      // 清除当前待支付订单
+      // 清除当前待支付訂單
       sessionStorage.removeItem('pendingOrder')
       
       // 跳转到成功页面

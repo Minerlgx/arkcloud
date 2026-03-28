@@ -18,8 +18,8 @@ interface Product {
 }
 
 const categories = [
-  { id: 'container', name: 'GPU容器实例', icon: Box, desc: '即开即用，弹性计费', color: 'from-blue-500 to-cyan-500' },
-  { id: 'bms', name: 'GPU裸金属服务器', icon: Server, desc: '物理服务器，性能强劲', color: 'from-purple-500 to-pink-500' },
+  { id: 'container', name: 'GPU容器實例', icon: Box, desc: '即开即用，弹性计费', color: 'from-blue-500 to-cyan-500' },
+  { id: 'bms', name: 'GPU裸金属服務器', icon: Server, desc: '物理服務器，性能强劲', color: 'from-purple-500 to-pink-500' },
 ]
 
 const categoryMap: Record<string, string> = {
@@ -100,7 +100,7 @@ export default function MarketsPage() {
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
-              全部产品
+              全部產品
             </button>
             {categories.map((cat) => (
               <Link
@@ -122,9 +122,9 @@ export default function MarketsPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl font-bold text-gray-900">
-              {activeTab === 'all' ? '全部产品' : activeTab === 'container' ? 'GPU容器实例' : 'GPU裸金属服务器'}
+              {activeTab === 'all' ? '全部產品' : activeTab === 'container' ? 'GPU容器實例' : 'GPU裸金属服務器'}
             </h2>
-            <span className="text-gray-500">{products.length} 个产品</span>
+            <span className="text-gray-500">{products.length} 个產品</span>
           </div>
 
           {loading ? (
@@ -134,7 +134,7 @@ export default function MarketsPage() {
           ) : products.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-2xl">
               <Server className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 text-lg">暂无产品</p>
+              <p className="text-gray-500 text-lg">暂无產品</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -168,7 +168,7 @@ export default function MarketsPage() {
                         href={`/products/${product.slug}`}
                         className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-colors whitespace-nowrap"
                       >
-                        查看详情
+                        查看詳情
                       </Link>
                     </div>
                   </div>

@@ -15,7 +15,7 @@ export default function RegisterPage() {
     setError('')
     
     try {
-      // 真实注册 - 调用后端 API
+      // 真实註冊 - 调用后端 API
       const response = await fetch('/api/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -38,11 +38,11 @@ export default function RegisterPage() {
         return
       }
       
-      // 保存用户信息
+      // 保存用戶信息
       sessionStorage.setItem('user', JSON.stringify(data.user))
       router.push('/dashboard')
     } catch (err: any) {
-      // 忽略网络错误
+      // 忽略網絡錯誤
       if (err.message && err.message.includes('Failed to fetch')) {
         setError('網絡錯誤，請檢查連接')
       }
@@ -52,7 +52,7 @@ export default function RegisterPage() {
   }
 
   const handleSocialLogin = (provider: string) => {
-    // TODO: 实现社交登录
+    // TODO: 实现社交登入
     alert(`${provider} 註冊功能即將上線`)
   }
 

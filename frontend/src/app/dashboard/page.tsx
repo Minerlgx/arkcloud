@@ -43,20 +43,20 @@ export default function DashboardPage() {
     let apiOrders: Order[] = []
     
     try {
-      // 从 API 获取订单
+      // 从 API 获取訂單
       const data = await api.get(`/orders/user/${userId}`)
       apiOrders = data.orders || []
     } catch (err) {
       console.error('API error:', err)
-      // API 失败时使用空数组
+      // API 失敗时使用空数组
       apiOrders = []
     }
     
-    // 从 sessionStorage 获取所有支付成功的订单
+    // 从 sessionStorage 获取所有支付成功的訂單
     const paidOrdersData = sessionStorage.getItem('paidOrders')
     if (paidOrdersData) {
       const paidOrders = JSON.parse(paidOrdersData)
-      // 将每个支付成功的订单转换为 Order 格式
+      // 将每个支付成功的訂單转换为 Order 格式
       paidOrders.forEach((orderData: any, index: number) => {
         const newOrder: Order = {
           id: orderData.orderId || `ORD-${Date.now() - index}`,
@@ -80,7 +80,7 @@ export default function DashboardPage() {
       })
     }
     
-    // 如果还是没有订单，显示演示数据
+    // 如果还是没有訂單，显示演示數據
     if (apiOrders.length === 0) {
       apiOrders = [
         {

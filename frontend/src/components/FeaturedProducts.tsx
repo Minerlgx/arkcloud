@@ -45,7 +45,7 @@ export default function FeaturedProducts() {
       // api.get 已经在 lib/api.ts 里做了 JSON 解析
       const data = await api.get('/products')
 
-      // 获取 featured 产品
+      // 获取 featured 產品
       const featured = (data.products || [])
         .filter((p: any) => p.featured)
         .slice(0, 3)

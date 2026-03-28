@@ -264,7 +264,7 @@ model = nn.Sequential(
       </div>
     )
   },
-  // 其他文档
+  // 其他文檔
   migration: {
     title: '數據遷移',
     category: '開發者指南',

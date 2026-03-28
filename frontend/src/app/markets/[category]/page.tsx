@@ -20,15 +20,15 @@ interface Product {
 
 const categoryInfo: Record<string, { name: string; icon: any; desc: string; color: string }> = {
   container: { 
-    name: 'GPU 容器实例', 
+    name: 'GPU 容器實例', 
     icon: Box, 
     desc: '即开即用，弹性计费，适合临时开发和测试',
     color: 'from-blue-500 to-cyan-500'
   },
   bms: { 
-    name: 'GPU 裸金属服务器', 
+    name: 'GPU 裸金属服務器', 
     icon: Server, 
-    desc: '物理服务器独享，性能强劲，适合长期训练任务',
+    desc: '物理服務器独享，性能强劲，适合长期训练任务',
     color: 'from-purple-500 to-pink-500'
   },
 }
@@ -59,7 +59,7 @@ export default function CategoryPage() {
       const data = await api.get('/products')
       let prods = data.products || []
       
-      // 根据分类过滤产品
+      // 根据分类过滤產品
       if (category === 'container') {
         prods = prods.filter((p: Product) => p.category === 'Inference' || p.category === 'Visualization')
       } else if (category === 'bms') {
@@ -117,7 +117,7 @@ export default function CategoryPage() {
               href="/markets"
               className="px-6 py-3 rounded-xl font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all"
             >
-              全部产品
+              全部產品
             </Link>
             <Link
               href="/markets/container"
@@ -128,7 +128,7 @@ export default function CategoryPage() {
               }`}
             >
               <Box className="w-5 h-5 inline mr-2" />
-              GPU 容器实例
+              GPU 容器實例
             </Link>
             <Link
               href="/markets/bms"
@@ -139,7 +139,7 @@ export default function CategoryPage() {
               }`}
             >
               <Server className="w-5 h-5 inline mr-2" />
-              GPU 裸金属服务器
+              GPU 裸金属服務器
             </Link>
           </div>
         </div>
@@ -149,8 +149,8 @@ export default function CategoryPage() {
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-gray-900">全部产品</h2>
-            <span className="text-gray-500">{products.length} 个产品</span>
+            <h2 className="text-2xl font-bold text-gray-900">全部產品</h2>
+            <span className="text-gray-500">{products.length} 个產品</span>
           </div>
 
           {loading ? (
@@ -160,9 +160,9 @@ export default function CategoryPage() {
           ) : products.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-2xl">
               <info.icon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 text-lg">该分类下暂无产品</p>
+              <p className="text-gray-500 text-lg">该分类下暂无產品</p>
               <Link href="/markets" className="text-blue-600 hover:underline mt-2 inline-block">
-                查看全部产品 →
+                查看全部產品 →
               </Link>
             </div>
           ) : (
@@ -197,7 +197,7 @@ export default function CategoryPage() {
                         href={`/products/${product.slug}`}
                         className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-colors"
                       >
-                        查看详情
+                        查看詳情
                       </Link>
                     </div>
                   </div>
@@ -212,7 +212,7 @@ export default function CategoryPage() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            {category === 'container' ? '容器实例优势' : '裸金属服务器优势'}
+            {category === 'container' ? '容器實例优势' : '裸金属服務器优势'}
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {category === 'container' ? (
@@ -246,7 +246,7 @@ export default function CategoryPage() {
                     <Server className="w-8 h-8 text-purple-600" />
                   </div>
                   <h3 className="text-lg font-bold text-gray-900 mb-2">独享资源</h3>
-                  <p className="text-gray-500">完整物理服务器，零虚拟化</p>
+                  <p className="text-gray-500">完整物理服務器，零虚拟化</p>
                 </div>
                 <div className="text-center">
                   <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -260,7 +260,7 @@ export default function CategoryPage() {
                     <Box className="w-8 h-8 text-green-600" />
                   </div>
                   <h3 className="text-lg font-bold text-gray-900 mb-2">安全隔离</h3>
-                  <p className="text-gray-500">物理隔离，数据更安全</p>
+                  <p className="text-gray-500">物理隔离，數據更安全</p>
                 </div>
               </>
             )}

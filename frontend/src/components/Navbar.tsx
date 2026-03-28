@@ -24,7 +24,7 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // 检查 sessionStorage 中的用户登录状态
+  // 检查 sessionStorage 中的用戶登入状态
   useEffect(() => {
     const storedUser = sessionStorage.getItem('user')
     if (storedUser) {

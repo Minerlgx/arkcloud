@@ -30,7 +30,7 @@ function CheckoutContent() {
   const [processing, setProcessing] = useState(false)
 
   useEffect(() => {
-    // 检查登录状态
+    // 检查登入状态
     const stored = sessionStorage.getItem('user')
     if (!stored) {
       router.push('/login')
@@ -48,7 +48,7 @@ function CheckoutContent() {
       setQuantity(parseInt(qtyParam) || 1)
     }
     
-    // 获取产品信息
+    // 获取產品信息
     if (slug) {
       fetchProduct()
     } else {

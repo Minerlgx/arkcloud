@@ -79,7 +79,7 @@ export default function ProductsPage() {
       setProducts(prods)
     } catch (err) {
       console.error('Fetch error:', err)
-      const msg = err instanceof Error ? err.message : '加载产品失败'
+      const msg = err instanceof Error ? err.message : '載入產品失敗'
       setFetchError(msg)
       setProducts([])
     } finally {
@@ -162,7 +162,7 @@ export default function ProductsPage() {
       <div className="max-w-7xl mx-auto px-6 -mt-8 relative z-20">
         {fetchError && (
           <div className="mb-8 rounded-2xl border border-red-200 bg-red-50 px-6 py-4 text-red-800">
-            <p className="font-semibold mb-2">无法加载产品数据</p>
+            <p className="font-semibold mb-2">無法載入產品數據</p>
             <p className="text-sm mb-4 whitespace-pre-wrap">{fetchError}</p>
             <button
               type="button"

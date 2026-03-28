@@ -232,10 +232,10 @@ export default function ProductDetailPage() {
                 onClick={() => {
                   const stored = sessionStorage.getItem('user')
                   if (stored) {
-                    // 已登录，跳转到结算页面
+                    // 已登入，跳转到结算页面
                     router.push(`/checkout?product=${product.slug}&quantity=${quantity}&cycle=${billingCycle}`)
                   } else {
-                    // 未登录，跳转到登录，登录后返回结算页面
+                    // 未登入，跳转到登入，登入后返回结算页面
                     router.push(`/login?redirect=/checkout?product=${product.slug}&quantity=${quantity}&cycle=${billingCycle}`)
                   }
                 }}

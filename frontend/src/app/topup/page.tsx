@@ -27,7 +27,7 @@ export default function TopUpPage() {
       return
     }
     
-    // 模拟用户余额
+    // 模拟用戶余额
     setBalance({
       balance: 5000,
       frozen: 0,
