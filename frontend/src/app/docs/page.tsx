@@ -164,7 +164,7 @@ export default function DocsPage() {
                   <ul className="list-disc pl-6 mt-2">
                     <li>在線客服：7x24小時</li>
                     <li>郵箱：support@arkcloud.top</li>
-                    <li>電話：+886-2-XXXX-XXXX</li>
+                    <li>電話：+886-0975762913</li>
                   </ul>
                 </div>
               </div>

@@ -4,7 +4,7 @@ import { Mail, Phone, MapPin, Clock, Send, CheckCircle } from 'lucide-react'
 
 const contactInfo = [
   { icon: Mail, title: '電子郵件', items: ['support@arkcloud.top', 'sales@arkcloud.top'] },
-  { icon: Phone, title: '服務專線', items: ['+886-2-2345-6789', '400-123-4567 (大陸)'] },
+  { icon: Phone, title: '服務專線', items: ['+886-0975762913', '400-123-4567 (大陸)'] },
   { icon: MapPin, title: '公司地址', items: ['桃園市中壢區龍平里龍東路 116 號 (1 樓)'] },
   { icon: Clock, title: '服務時間', items: ['7x24 小時線上支援', '工作日 9:00-18:00 人工客服'] },
 ]
