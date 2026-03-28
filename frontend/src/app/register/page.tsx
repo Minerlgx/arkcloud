@@ -23,7 +23,15 @@ export default function RegisterPage() {
         body: JSON.stringify(form),
       })
       
-      const data = await response.json()
+      const text = await response.text()
+      let data
+      try {
+        data = JSON.parse(text)
+      } catch {
+        setError('服務器錯誤，請稍後重試')
+        setLoading(false)
+        return
+      }
       
       if (!response.ok) {
         setError(data.error || '註冊失敗')
@@ -35,7 +43,10 @@ export default function RegisterPage() {
       sessionStorage.setItem('user', JSON.stringify(data.user))
       router.push('/dashboard')
     } catch (err: any) {
-      setError(err.message || '註冊失敗，請稍後重試')
+      // 忽略网络错误
+      if (err.message && err.message.includes('Failed to fetch')) {
+        setError('網絡錯誤，請檢查連接')
+      }
     } finally {
       setLoading(false)
     }

@@ -27,7 +27,15 @@ function LoginContent() {
         body: JSON.stringify({ email, password }),
       })
       
-      const data = await response.json()
+      const text = await response.text()
+      let data
+      try {
+        data = JSON.parse(text)
+      } catch {
+        setError('服務器錯誤，請稍後重試')
+        setLoading(false)
+        return
+      }
       
       if (!response.ok) {
         setError(data.error || '登入失敗')
@@ -40,7 +48,10 @@ function LoginContent() {
       router.push(redirect)
       router.refresh()
     } catch (err: any) {
-      setError(err.message || '登入失敗，請稍後重試')
+      // 忽略网络错误，因为我们已经处理了响应
+      if (err.message && err.message.includes('Failed to fetch')) {
+        setError('網絡錯誤，請檢查連接')
+      }
     } finally {
       setLoading(false)
     }
