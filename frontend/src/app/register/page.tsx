@@ -15,12 +15,27 @@ export default function RegisterPage() {
     setError('')
     
     try {
-      // 模拟注册
-      const mockUser = { id: 'user-001', email: form.email, name: form.name }
-      sessionStorage.setItem('user', JSON.stringify(mockUser))
+      // 真实注册 - 调用后端 API
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+      const response = await fetch(`${API_URL}/api/users/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      
+      const data = await response.json()
+      
+      if (!response.ok) {
+        setError(data.error || '註冊失敗')
+        setLoading(false)
+        return
+      }
+      
+      // 保存用户信息
+      sessionStorage.setItem('user', JSON.stringify(data.user))
       router.push('/dashboard')
     } catch (err: any) {
-      setError(err.message || '註冊失敗')
+      setError(err.message || '註冊失敗，請稍後重試')
     } finally {
       setLoading(false)
     }

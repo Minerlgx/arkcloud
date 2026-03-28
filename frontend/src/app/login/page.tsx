@@ -19,17 +19,28 @@ function LoginContent() {
     setError('')
     
     try {
-      // 模拟登录 - 任何邮箱密码都能登录
-      const mockUser = { 
-        id: 'user-' + Date.now(), 
-        email, 
-        name: email.split('@')[0] 
+      // 真实登录 - 调用后端 API
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+      const response = await fetch(`${API_URL}/api/users/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
+      
+      const data = await response.json()
+      
+      if (!response.ok) {
+        setError(data.error || '登入失敗')
+        setLoading(false)
+        return
       }
-      sessionStorage.setItem('user', JSON.stringify(mockUser))
+      
+      // 保存用户信息
+      sessionStorage.setItem('user', JSON.stringify(data.user))
       router.push(redirect)
       router.refresh()
     } catch (err: any) {
-      setError(err.message || '登入失敗')
+      setError(err.message || '登入失敗，請稍後重試')
     } finally {
       setLoading(false)
     }
