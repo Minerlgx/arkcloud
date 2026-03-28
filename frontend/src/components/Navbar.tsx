@@ -2,16 +2,21 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
-import { signOut, useSession } from 'next-auth/react'
 import { Menu, X, User, LogOut, LayoutDashboard } from 'lucide-react'
+
+interface LocalUser {
+  id: string
+  name?: string
+  email: string
+}
 
 export default function Navbar() {
   const router = useRouter()
   const pathname = usePathname()
-  const { data: session, status } = useSession()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [showUserMenu, setShowUserMenu] = useState(false)
+  const [localUser, setLocalUser] = useState<LocalUser | null>(null)
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20)
@@ -19,8 +24,22 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const handleLogout = async () => {
-    await signOut({ callbackUrl: '/' })
+  // 检查 sessionStorage 中的用户登录状态
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem('user')
+    if (storedUser) {
+      setLocalUser(JSON.parse(storedUser))
+    } else {
+      setLocalUser(null)
+    }
+  }, [pathname])
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('user')
+    sessionStorage.removeItem('paidOrders')
+    sessionStorage.removeItem('pendingOrder')
+    setLocalUser(null)
+    router.push('/')
   }
 
   const navLinks = [
@@ -36,7 +55,7 @@ export default function Navbar() {
     return null
   }
 
-  const user = session?.user
+  const user = localUser
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
@@ -67,9 +86,7 @@ export default function Navbar() {
 
           {/* Auth/User Section */}
           <div className="hidden md:flex items-center gap-4">
-            {status === 'loading' ? (
-              <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-            ) : user ? (
+            {user ? (
               <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
